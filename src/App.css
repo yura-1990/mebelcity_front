@@ -1,0 +1,68 @@
+
+/* Base app styles to complement Tailwind CSS */
+/* These styles are automatically applied to the whole app */
+
+:root {
+  --color-wood: #C19A6B;
+  --color-wood-dark: #A67F4B;
+  --color-navy: #0F172A;
+  --color-navy-dark: #0F172A;
+  --color-gold: #D4AF37;
+}
+
+.dark body {
+  background-color: var(--color-navy);
+  color: white;
+  font-family: 'Share-Tech' !important;
+  box-sizing: border-box !important;
+}
+
+body {
+  background-color: white;
+  color: var(--color-navy);
+}
+
+.section-title.dark\:text-white::after {
+  background-color: blue;
+}
+
+/* Fix for theme switching flicker */
+.hidden-transition {
+  transition: none !important;
+}
+
+/* Ensure proper text contrast in dark mode */
+.dark .text-navy-dark {
+  color: white;
+}
+
+.dark .bg-white {
+  background-color: var(--color-navy);
+}
+
+
+.loader {
+  border-top-color: #3498db;
+  -webkit-animation: spinner 1.5s linear infinite;
+  animation: spinner 1.5s linear infinite;
+}
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
