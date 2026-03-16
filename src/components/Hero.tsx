@@ -45,7 +45,7 @@ const Hero = () => {
                             asChild
                         >
                             <MotionLink
-                                to="/catalog"
+                                to="/ofisnaya-mebel"
                                 whileHover={{ scale: 1.1 }}
                                 transition={{
                                     type: 'spring',
