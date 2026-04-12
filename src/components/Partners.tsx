@@ -6,8 +6,14 @@ import axios from "axios";
 import Animable from "@/components/Animable.tsx";
 import {useLanguage} from "@/lib/i18n/context.tsx";
 
+type Partner = {
+    id: number;
+    url_link: string | null;
+    logo: string;
+  }
+
 export default function Partners() {
-    const [photos, setPhotos] = useState<any[]>([]);
+    const [photos, setPhotos] = useState<Partner[]>([]);
     const { t } = useLanguage();
 
     useEffect(() => {
