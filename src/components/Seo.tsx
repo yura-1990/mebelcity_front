@@ -1,77 +1,61 @@
 import { Helmet } from "react-helmet-async";
 
 interface SeoProps {
-    title: string;
-    description: string;
-    keywords?: string;
-    image?: string;
-    url?: string;
-    schemaType?: "WebSite" | "WebPage" | "Product" | "ProductCollection";
-    children?: React.ReactNode;
+  title: string;
+  description: string;
+  image?: string;
+  url?: string;
+  keywords?: string;
+  ogType?: "website" | "article" | "product";
+  noindex?: boolean;
+  children?: React.ReactNode;
 }
 
+const SITE_URL = "https://mebelcity.uz";
+const DEFAULT_IMAGE = "https://mebelcity.uz/assets/images/google/loft-table.webp";
+const SITE_NAME = "MebelCity";
+
 const Seo = ({
-                 title,
-                 description,
-                 keywords,
-                 image,
-                 url,
-                 schemaType = "WebPage",
-                 children
-             }: SeoProps) => {
-    const defaultUrl = "https://mebelcity.uz";
-    const defaultImage = "https://mebelcity.uz/assets/images/google/loft-table.webp";
-    const canonicalUrl = url || defaultUrl;
-    const ogImage = image || defaultImage;
+  title,
+  description,
+  image,
+  url,
+  keywords,
+  ogType = "website",
+  noindex = false,
+  children,
+}: SeoProps) => {
+  const canonicalUrl = url || `${SITE_URL}/`;
+  const ogImage = image || DEFAULT_IMAGE;
+  const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
 
-    // JSON-LD Schema
-    const schema = {
-        "@context": "https://schema.org",
-        "@type": schemaType,
-        "name": title,
-        "description": description,
-        "url": canonicalUrl,
-        "image": ogImage,
-    };
+  return (
+    <>
+      <Helmet>
+        <title>{title}</title>
 
-    return (
-        <>
-            <Helmet>
-                <title>{title}</title>
-                <meta name="description" content={description} />
-                {keywords && <meta name="keywords" content={keywords} />}
+        <meta name="description" content={description} />
+        {keywords ? <meta name="keywords" content={keywords} /> : null}
+        <meta name="robots" content={robotsContent} />
 
-                {/* Open Graph */}
-                <meta property="og:title" content={title} />
-                <meta property="og:description" content={description} />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content={canonicalUrl} />
-                <meta property="og:image" content={ogImage} />
+        <link rel="canonical" href={canonicalUrl} />
 
-                {/* Twitter */}
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={title} />
-                <meta name="twitter:description" content={description} />
-                <meta name="twitter:image" content={ogImage} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content={ogType} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:site_name" content={SITE_NAME} />
 
-                {/* Indexing */}
-                <meta name="robots" content="index, follow" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+      </Helmet>
 
-                {/* Verification */}
-                <meta name="yandex-verification" content="verification_token" />
-                <meta name="google-site-verification" content="verification_token" />
-
-                {/* Canonical */}
-                <link rel="canonical" href={canonicalUrl} />
-
-                {/* Structured Data */}
-                <script type="application/ld+json">{JSON.stringify(schema)}</script>
-            </Helmet>
-
-            {/* Extra JSON-LD from pages (products, org info, etc.) */}
-            {children}
-        </>
-    );
+      {children}
+    </>
+  );
 };
 
 export default Seo;
