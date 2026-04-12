@@ -47,7 +47,7 @@ export type Galleries = {
 }
 
 type State = {
-    catalogs?: Catalogs[] | []
+    catalogs?: Catalogs[]
     products?: Product[]
     loading: boolean
     error: boolean
