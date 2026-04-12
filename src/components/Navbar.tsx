@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation  } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -8,66 +7,67 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageSelector } from './LanguageSelector';
 import { useLanguage } from '@/lib/i18n/context';
-import { toast } from "@/components/ui/sonner";
-import logo from '../assets/images/logos/6.qora home pn.png'
-import mobileLogoDark from '../assets/images/logos/logo_oq.png'
+import logo from '../assets/images/logos/6.qora home pn.png';
+import mobileLogoDark from '../assets/images/logos/logo_oq.png';
 import { CartDropdown } from './cart/CartDropdown';
-import {AnimatePresence, motion} from "framer-motion";
-import Animable from "@/components/Animable.tsx";
+import { AnimatePresence, motion, type Variants } from 'framer-motion';
+import Animable from '@/components/Animable.tsx';
+
 const MotionLink = motion.create(Link);
+
+const containerVariants: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      when: 'beforeChildren',
+      staggerChildren: 0.1,
+    },
+  },
+  exit: {
+    transition: {
+      when: 'afterChildren',
+      staggerChildren: 0.1,
+      staggerDirection: -1,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, x: 30 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 300,
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: 30,
+    transition: {
+      duration: 0.2,
+    },
+  },
+};
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const {isMobile, isMobileLogo} = useIsMobile();
+  const { isMobile, isMobileLogo } = useIsMobile();
   const { t } = useLanguage();
   const location = useLocation();
 
   useEffect(() => {
-    const savedState = localStorage.getItem("mobileMenuOpen");
-    if (savedState === "true") {
+    const savedState = localStorage.getItem('mobileMenuOpen');
+    if (savedState === 'true') {
       setIsMobileMenuOpen(true);
     }
   }, [location.pathname]);
 
-  const containerVariants = {
-    hidden: {},
-    show: {
-      transition: {
-        when: "beforeChildren",
-        staggerChildren: 0.1,
-      },
-    },
-    exit: {
-      transition: {
-        when: "afterChildren",
-        staggerChildren: 0.1,
-        staggerDirection: -1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, x: 30 },
-    show: {
-      opacity: 1,
-      x: 0,
-      transition: { type: "spring", stiffness: 300 },
-    },
-    exit: {
-      opacity: 0,
-      x: 30,
-      transition: { duration: 0.2 },
-    },
-  };
-
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 0);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -77,9 +77,7 @@ const Navbar = () => {
   const toggleMobileMenu = () => {
     const newState = !isMobileMenuOpen;
     setIsMobileMenuOpen(newState);
-
-    localStorage.setItem("mobileMenuOpen", JSON.stringify(newState));
-
+    localStorage.setItem('mobileMenuOpen', JSON.stringify(newState));
   };
 
   const navItems = [
@@ -87,7 +85,6 @@ const Navbar = () => {
     { name: t('nav.catalog'), href: '/ofisnaya-mebel' },
     { name: t('nav.about'), href: '/about' },
     { name: t('nav.gallery'), href: '/gallery' },
-    // { name: t('nav.contact'), href: '/contact' },
   ];
 
   const navClasses = cn(
