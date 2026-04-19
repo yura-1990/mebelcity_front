@@ -67,22 +67,30 @@ export default function Partners() {
                     }}
                 >
 
-                    {
-                        photos.map((el, index) =>
+                    {(() => {
+                        if (photos.length === 0) return null;
+                        
+                        // Ensure we have enough slides for loop mode (min 16 slides for partners)
+                        let loopPhotos = [...photos];
+                        while (loopPhotos.length > 0 && loopPhotos.length < 16) {
+                            loopPhotos = [...loopPhotos, ...loopPhotos];
+                        }
+
+                        return loopPhotos.map((el, index) => (
                             <SwiperSlide key={index}>
-                                <div className={'h-full w-full border shadow bg-white flex items-center justify-center'}>
+                                <div className={'h-full w-full border shadow bg-card flex items-center justify-center'}>
                                     <img
                                         src={`https://adminpanel.mebelcity.uz/storage/${el?.logo}`}
-                                        alt={`photo-${index}`}
+                                        alt="Клиент MebelCity"
                                         loading="lazy"
-                                        className="w-full h-full"
+                                        width="150"
+                                        height="80"
+                                        className="w-full h-full object-contain p-2"
                                     />
                                 </div>
-
                             </SwiperSlide>
-
-                        )
-                    }
+                        ));
+                    })()}
                 </Swiper>
             ) : (
                 <p className="text-center text-gray-500">Loading photos...</p>

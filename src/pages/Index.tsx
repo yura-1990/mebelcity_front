@@ -7,8 +7,10 @@ import Footer from "@/components/Footer";
 import Partners from "@/components/Partners";
 import Catalog from "@/pages/Catalog";
 import Seo from "@/components/Seo";
+import SeoContent from "@/components/SeoContent";
 import OrganizationSchema from "@/components/schema/OrganizationSchema";
 import BreadcrumbSchema from "@/components/schema/BreadcrumbSchema";
+import LocalBusinessSchema from "@/components/schema/LocalBusinessSchema";
 import { useLanguage } from "@/lib/i18n/context";
 import WebsiteSchema from "@/components/schema/WebsiteSchema";
 
@@ -27,6 +29,7 @@ const Index = () => {
       >
         <OrganizationSchema />
         <WebsiteSchema />
+        <LocalBusinessSchema />
         <BreadcrumbSchema
           items={[
             { name: "Главная", url: "https://mebelcity.uz/" },
@@ -34,12 +37,13 @@ const Index = () => {
         />
       </Seo>
 
-      <div className="h-screen flex flex-col bg-white dark:bg-navy-dark transition-colors duration-300">
+      <div className="h-screen flex flex-col bg-background transition-colors duration-300">
         <Navbar />
         <main>
           <Hero />
           <Catalog home={true} />
           <ServicesSection />
+          <SeoContent />
           <Partners />
           <AboutSection />
         </main>
@@ -49,4 +53,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Index;

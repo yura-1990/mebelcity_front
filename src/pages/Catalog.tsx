@@ -153,15 +153,21 @@ const Catalog = ({ home }: { home: boolean }) => {
         </Seo>
       )}
 
-      <section className="flex-grow bg-white dark:bg-navy-dark transition-colors duration-300">
+      <section className="flex-grow bg-background transition-colors duration-300">
         <Navbar />
 
         <section className="sm:container w-full relative top-0 h-full">
           <div className="h-full w-full mx-auto px-4 py-2">
             <div className={`text-center mb-2 ${!home ? 'mt-[100px]' : ''}`}>
-              <h1 className="text-3xl md:text-4xl font-bold text-navy-dark dark:text-white section-title">
-                {t('furniture_catalog_title')}
-              </h1>
+              {home ? (
+                <h2 className="text-3xl md:text-4xl font-bold text-navy-dark dark:text-white section-title">
+                  {t('furniture_catalog_title')}
+                </h2>
+              ) : (
+                <h1 className="text-3xl md:text-4xl font-bold text-navy-dark dark:text-white section-title">
+                  {t('furniture_catalog_title')}
+                </h1>
+              )}
 
               {home ? (
                 <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
@@ -188,12 +194,12 @@ const Catalog = ({ home }: { home: boolean }) => {
                     onClick={() => setSelectedCategory('all')}
                     className={
                       selectedCategory === 'all'
-                        ? 'px-4 py-2 bg-white hover:text-blue-500 text-blue-500 border border-blue-500 dark:border-none rounded-full'
-                        : 'hover:bg-blue-800 text-white px-4 py-2 bg-blue-500 rounded-full'
+                        ? 'px-4 py-2 bg-white hover:text-emerald-500 text-emerald-500 border border-emerald-500 dark:border-none rounded-full'
+                        : 'hover:bg-emerald-800 text-white px-4 py-2 bg-emerald-600 rounded-full'
                     }
                   >
-                    <span className="2xl:text-[24px] hover:text-blue-500 text-[18px]">
-                      {t('All')}
+                    <span className="2xl:text-[24px] hover:text-emerald-500 text-[18px]">
+                      {t('category.all')}
                     </span>
                   </Button>
 
@@ -207,11 +213,11 @@ const Catalog = ({ home }: { home: boolean }) => {
                       onClick={() => setSelectedCategory(category.id.toString())}
                       className={
                         selectedCategory === category.id.toString()
-                          ? 'px-4 py-2 bg-white hover:text-blue-500 text-blue-500 border border-blue-500 dark:border-none rounded-full'
-                          : 'hover:bg-blue-800 text-white px-4 py-2 bg-blue-500 rounded-full'
+                          ? 'px-4 py-2 bg-white hover:text-emerald-700 text-emerald-700 border border-emerald-700 dark:border-none rounded-full'
+                          : 'hover:bg-emerald-800 text-white px-4 py-2 bg-emerald-600 rounded-full'
                       }
                     >
-                      <span className="2xl:text-[24px] text-[18px] hover:text-blue-500">
+                      <span className="2xl:text-[24px] text-[18px] hover:text-emerald-500">
                         {category.name}
                       </span>
                     </Button>
@@ -223,48 +229,51 @@ const Catalog = ({ home }: { home: boolean }) => {
             {!home || !!selectedCategory ? (
               <div className="w-full overflow-x-hidden">
                 {selectedCategory === 'all' ? (
-                  catalogs.map((el, index) => (
-                    <Swiper
-                      key={index}
-                      modules={[Autoplay]}
-                      spaceBetween={10}
-                      slidesPerView={2}
-                      freeMode={true}
-                      zoom={true}
-                      autoplay={{
-                        delay: 2500,
-                        reverseDirection: index % 2 !== 0,
-                      }}
-                      observer={true}
-                      observeParents={true}
-                      observeSlideChildren={true}
-                      className="w-full h-full overflow-visible mt-5 relative"
-                      loop={true}
-                      speed={2000}
-                      breakpoints={{
-                        0: { slidesPerView: 2 },
-                        500: { slidesPerView: 3 },
-                        1200: { slidesPerView: 4 },
-                        1600: { slidesPerView: 5 },
-                        2000: { slidesPerView: 6 },
-                      }}
-                    >
-                      <AnimatePresence>
-                        {(() => {
-                          let slides = filteredImages.filter((it) => it.catalog_id === el.id);
+                  catalogs.map((el, index) => {
+                    const categorySlides = filteredImages.filter((it) => it.catalog_id === el.id);
+                    if (categorySlides.length === 0) return null;
 
-                          if (slides.length <= 9) {
-                            slides = slides.concat([...slides]);
-                          }
+                    // Ensure we have enough slides for loop mode (min 18 slides)
+                    let loopSlides = [...categorySlides];
+                    while (loopSlides.length > 0 && loopSlides.length < 18) {
+                      loopSlides = [...loopSlides, ...loopSlides];
+                    }
 
-                          return slides.map((product, index) => (
-                            <SwiperSlide key={index} className="slide-item">
+                    return (
+                      <Swiper
+                        key={`${el.id}-${loopSlides.length}`}
+                        modules={[Autoplay]}
+                        spaceBetween={10}
+                        slidesPerView={2}
+                        freeMode={true}
+                        zoom={true}
+                        autoplay={{
+                          delay: 2500,
+                          reverseDirection: index % 2 !== 0,
+                        }}
+                        observer={true}
+                        observeParents={true}
+                        observeSlideChildren={true}
+                        className="w-full h-full overflow-visible mt-5 relative"
+                        loop={true}
+                        speed={2000}
+                        breakpoints={{
+                          0: { slidesPerView: 2 },
+                          500: { slidesPerView: 3 },
+                          1200: { slidesPerView: 4 },
+                          1600: { slidesPerView: 5 },
+                          2000: { slidesPerView: 6 },
+                        }}
+                      >
+                        <AnimatePresence>
+                          {loopSlides.map((product, idx) => (
+                            <SwiperSlide key={`${product.id}-${idx}`} className="slide-item">
                               <MotionDiv
                                 key={product.id}
                                 initial={{ opacity: 0, scale: 0.5 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.5 }}
-                                transition={{ duration: 0.2, delay: index * 0.095 }}
+                                transition={{ duration: 0.2, delay: idx * 0.095 }}
                                 layout
                                 className="relative cursor-pointer h-full"
                                 whileHover={{ scale: 1.02 }}
@@ -272,11 +281,11 @@ const Catalog = ({ home }: { home: boolean }) => {
                                 <ProductCard product={product} />
                               </MotionDiv>
                             </SwiperSlide>
-                          ));
-                        })()}
-                      </AnimatePresence>
-                    </Swiper>
-                  ))
+                          ))}
+                        </AnimatePresence>
+                      </Swiper>
+                    );
+                  })
                 ) : (
                   <div className="grid flex-grow grid-cols-2 mt-5 min-[600px]:grid-cols-3 2xl:grid-cols-5 min-[1600px]:grid-cols-5 xl:grid-cols-4 gap-2 flex-1 overflow-y-auto">
                     <AnimatePresence>

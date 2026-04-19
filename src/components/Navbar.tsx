@@ -88,7 +88,7 @@ const Navbar = () => {
   ];
 
   const navClasses = cn(
-    'fixed w-screen bg-blue-500 backdrop-blur-md shadow-md top-2 rounded-lg py-2 z-50',
+    'fixed w-screen bg-wood backdrop-blur-md shadow-md top-2 rounded-lg py-2 z-50',
   );
 
   return (
@@ -107,9 +107,11 @@ const Navbar = () => {
               className="inline-block text-white dark:text-white text-2xl"
           >
             <img src={isMobileLogo ? mobileLogoDark : logo}
-                 alt="mebelcity home logo"
-                 className="h-10"
-                 loading="lazy"
+                 alt="MebelCity — офисная мебель в Ташкенте"
+                 className="h-8 sm:h-10 w-auto object-contain"
+                 width="160"
+                 height="40"
+                 loading="eager"
             />
           </MotionLink>
         </div>
@@ -117,24 +119,24 @@ const Navbar = () => {
         {!isMobile && (
           <ul className="flex items-center space-x-8">
             {navItems.map((item, index) => (
-                <Animable index={index} key={index}>
                   <li key={item.name}>
-                    <Link
-                        to={item.href}
-                        className={`text-white hover:text-blue-900 transition-colors ${
-                            location.pathname === item.href ? 'font-bold' : 'font-thin'
-                        }`}
-                    >
-                      <span
-                          className={`${
-                              location.pathname === item.href ? 'underline underline-offset-12' : ''
+                    <Animable index={index} key={index}>
+                      <Link
+                          to={item.href}
+                          className={`text-white hover:text-white/80 transition-colors ${
+                              location.pathname === item.href ? 'font-bold' : 'font-thin'
                           }`}
                       >
-                        {item.name}
-                      </span>
-                    </Link>
+                        <span
+                            className={`${
+                                location.pathname === item.href ? 'underline underline-offset-12' : ''
+                            }`}
+                        >
+                          {item.name}
+                        </span>
+                      </Link>
+                    </Animable>
                   </li>
-                </Animable>
 
             ))}
           </ul>
@@ -149,8 +151,10 @@ const Navbar = () => {
                   variant="outline"
                   size="custom"
                   className="bg-transparent backdrop-blur-sm px-2 py-2 hover:text-white text-white border-white/20 hover:bg-white/20 dark:hover:bg-navy-dark/50"
+                  aria-label="Позвонить"
+                  asChild
               >
-                <a href="tel:+998991832233">
+                <a href="tel:+998991832233" aria-label="Позвонить +998 99 183 22 33">
                   <Phone size={18}  />
                 </a>
               </Button>
@@ -160,6 +164,7 @@ const Navbar = () => {
             !isMobile 
               ? <Button
                     className="bg-wood hover:bg-wood-dark text-white mx-auto flex"
+                    asChild
                 >
                   <a
                       href="tel:+998901832233"
@@ -179,6 +184,7 @@ const Navbar = () => {
               size="icon"
               onClick={toggleMobileMenu}
               className="text-white z-50 dark:text-white bg-transparent"
+              aria-label={isMobileMenuOpen ? t('nav.closeMenu') || 'Закрыть меню' : t('nav.openMenu') || 'Открыть меню'}
             >
               {isMobileMenuOpen ? <X className={'dark:text-white text-navy-dark'} size={24} /> : <Menu size={24} />}
             </Button>
@@ -205,7 +211,7 @@ const Navbar = () => {
                   {navItems.map((item) => (
                       <motion.li
                           key={item.name}
-                          className={`${location.pathname === item.href ? 'bg-white text-blue-500 shadow-xl' : 'text-white bg-blue-500'} w-full hover:text-white  hover:bg-blue-600  rounded-md py-1`}
+                          className={`${location.pathname === item.href ? 'bg-white text-wood shadow-xl' : 'text-white bg-wood'} w-full hover:text-white  hover:bg-wood-dark  rounded-md py-1`}
                           variants={itemVariants}
                       >
                         <Link
@@ -219,7 +225,7 @@ const Navbar = () => {
                   ))}
 
                   <motion.li
-                      className={`${location.pathname === '/cart' ? 'bg-white text-blue-500 shadow-xl' : 'text-white bg-blue-500'} w-full hover:text-white  hover:bg-blue-600  rounded-md py-1`}
+                      className={`${location.pathname === '/cart' ? 'bg-white text-wood shadow-xl' : 'text-white bg-wood'} w-full hover:text-white  hover:bg-wood-dark  rounded-md py-1`}
                       variants={itemVariants}
                   >
                     <Link
@@ -227,15 +233,15 @@ const Navbar = () => {
                         className="w-full text-xl font-medium block text-center"
                         onClick={toggleMobileMenu}
                     >
-                      Корзина
+                      {t('nav.cart')}
                     </Link>
                   </motion.li>
 
                   <motion.li
-                      className="w-full bg-blue-500 hover:bg-blue-600 rounded-md"
+                      className="w-full bg-wood hover:bg-wood-dark rounded-md"
                       variants={itemVariants}
                   >
-                    <Button className="text-white bg-blue-500 hover:bg-blue-600 mx-auto flex">
+                    <Button className="text-white bg-wood hover:bg-wood-dark mx-auto flex" asChild>
                       <a
                           href="tel:+998901832233"
                           className="flex items-center justify-center text-gray-200"

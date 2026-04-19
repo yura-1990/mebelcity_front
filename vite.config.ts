@@ -5,6 +5,20 @@ import { componentTagger } from "lovable-tagger";
 import sitemap from 'vite-plugin-sitemap';
 import { visualizer } from "rollup-plugin-visualizer";
 
+// All real routes for sitemap generation
+const sitemapRoutes = [
+  '/',
+  '/about',
+  '/ofisnaya-mebel',
+  '/gallery',
+  '/contact',
+  '/services/offers',
+  '/services/design',
+  '/services/warranty',
+  '/cart',
+  '/checkout',
+];
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
@@ -16,9 +30,16 @@ export default defineConfig(({ mode }) => ({
     mode === 'development' &&
     componentTagger(),
     sitemap({
-      hostname: 'https://mebelcity.uz', // 🔁 Replace with your actual domain
+      hostname: 'https://mebelcity.uz',
+      dynamicRoutes: sitemapRoutes,
+      exclude: ['/bundle-visualizer', '/cards'],
+      outDir: './dist',
+      changefreq: 'weekly',
+      priority: 0.8,
+      lastmod: new Date(),
+      readable: true,
     }),
-    visualizer({ filename: 'dist/bundle-visualizer.html', open: true }),
+    mode !== 'development' && visualizer({ filename: 'dist/bundle-visualizer.html', open: false }),
   ].filter(Boolean),
   resolve: {
     alias: {

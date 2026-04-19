@@ -1,5 +1,4 @@
-import React from 'react';
-import { Helmet } from 'react-helmet';
+import React, { useMemo, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -11,6 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/contexts/CartContext';
 import { toast } from '@/components/ui/sonner';
 import {imageUrl} from "@/axios";
+import Seo from '@/components/Seo';
+import BreadcrumbSchema from '@/components/schema/BreadcrumbSchema';
 
 const ProductCategory = () => {
   const { category } = useParams<{ category: string }>();
@@ -45,6 +46,9 @@ const ProductCategory = () => {
   };
 
   const currentCategory = categoryData[category || 'living-room'] || categoryData['living-room'];
+
+  const categoryUrl = `https://mebelcity.uz/ofisnaya-mebel/${category || 'living-room'}`;
+
   
   const products = [
     {
@@ -160,17 +164,31 @@ const ProductCategory = () => {
     }
   ];
 
-  const filteredProducts = products.filter(product => product.category === category);
+  const filteredProducts = useMemo(() => {
+    return products.filter(product => product.category === category);
+  }, [category, products]);
+
   const MotionDiv = motion.div;
 
   return (
     <>
-      <Helmet>
-        <title>{currentCategory.title} - MebelCity</title>
-        <meta name="description" content={currentCategory.description} />
-      </Helmet>
+      <Seo
+        title={`${currentCategory.title} — офисная мебель MebelCity | Ташкент`}
+        description={`${currentCategory.title} от MebelCity в Ташкенте. ${currentCategory.description} Доставка по Узбекистану, гарантия качества.`}
+        url={categoryUrl}
+        image={currentCategory.image}
+        keywords={`${currentCategory.title} Ташкент, купить ${currentCategory.title}, офисная мебель, MebelCity`}
+      >
+        <BreadcrumbSchema
+          items={[
+            { name: 'Главная', url: 'https://mebelcity.uz/' },
+            { name: 'Каталог', url: 'https://mebelcity.uz/ofisnaya-mebel' },
+            { name: currentCategory.title, url: categoryUrl },
+          ]}
+        />
+      </Seo>
 
-      <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark transition-colors duration-300">
+      <div className="min-h-screen flex flex-col bg-background transition-colors duration-300">
         <Navbar />
         
         <main className="flex-grow pt-20">
@@ -228,7 +246,7 @@ const ProductCategory = () => {
                   <p className="text-gray-600 dark:text-gray-300 mb-6">
                     We couldn't find any products in this category. Please check back later or browse our other categories.
                   </p>
-                  <Button className="bg-wood hover:bg-wood-dark text-white">
+                  <Button className="bg-wood hover:bg-wood-dark text-white" asChild>
                     <Link to="/catalog">Browse Catalog</Link>
                   </Button>
                 </div>
@@ -248,38 +266,41 @@ interface ProductCardProps {
     id: number;
     name: string;
     category: string;
-    price: string;
+    price: number;
     image: string;
     bestseller: boolean;
     discount: number;
-    slug: string;
+    slug?: string;
   };
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard = React.memo(({ product }: ProductCardProps) => {
   const { addItem } = useCart();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = useCallback(() => {
     addItem({
         id: product.id,
         name: product.name,
         price: product.price,
         quantity: 1,
         image: product.image,
-        slug: product.slug
+        slug: product.slug || product.id.toString()
     });
 
     toast.success("Товар добавлен в корзину", {
       description: `${product.name} добавлен в корзину`,
     });
-  };
+  }, [addItem, product]);
 
   return (
-    <div className="group bg-white dark:bg-navy/30 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+    <div className="group bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
       <div className="relative overflow-hidden">
         <img 
           src={`${imageUrl}/${product.image}`}
           alt={product.name}
+          width="400"
+          height="300"
+          loading="lazy"
           className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500"
         />
         
@@ -291,13 +312,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         
         {product.discount > 0 && (
           <div className="absolute bottom-3 left-3">
-            <Badge className="bg-red-500 text-white font-medium">-{product.discount}%</Badge>
+            <Badge className="bg-red-700 text-white font-medium">-{product.discount}%</Badge>
           </div>
         )}
       </div>
       
       <div className="p-5">
-        <Link to={`/catalog/product/${product.id}`}>
+        <Link to={`/ofisnaya-mebel/${product.category}/mebel-v-nalichii/${product.id}`}>
           <h3 className="font-semibold text-lg mb-4 text-navy-dark dark:text-white">{product.name}</h3>
         </Link>
         
@@ -323,6 +344,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       </div>
     </div>
   );
-};
+});
 
 export default ProductCategory;

@@ -139,9 +139,9 @@ export const Card: React.FC<CardProps> = ({ card, onDelete, onEdit }) => {
           <CardContent>
             {card.image && (
               <div className="mb-4 overflow-hidden rounded-md">
-                <img 
-                  src={card.image} 
-                  alt={card.title} 
+                  <img 
+                    src={card.image} 
+                    alt={card.title || "Изображение карточки"} 
                   className="w-full h-48 object-cover transition-transform hover:scale-105 duration-300"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = '/placeholder.svg';

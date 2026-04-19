@@ -45,7 +45,7 @@ const LupaZoom = ({ src, zoomScale = 2 }) => {
             onTouchEnd={() => setShowLens(false)}
             onTouchMove={handleTouchMove}
         >
-            <img src={src} alt="zoom" className="w-full h-auto object-cover select-none" />
+            <img src={src} alt="Увеличенное изображение товара" className="w-full h-auto object-cover select-none" />
             {showLens && (
                 <div
                     ref={lensRef}

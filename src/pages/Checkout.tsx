@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { Helmet } from 'react-helmet';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -10,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/sonner';
 import { useNavigate } from 'react-router-dom';
+import Seo from '@/components/Seo';
 
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat('ru-RU').format(price) + ' сум';
@@ -17,6 +17,7 @@ const formatPrice = (price: number) => {
 
 const Checkout = () => {
   const { items, subtotal, clearCart } = useCart();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     firstName: '',
@@ -36,8 +37,8 @@ const Checkout = () => {
     e.preventDefault();
     
     // Simulate order submission
-    toast.success("Заказ оформлен!", {
-      description: "Спасибо за ваш заказ. Мы свяжемся с вами в ближайшее время.",
+    toast.success(t('checkout.success'), {
+      description: t('checkout.success_desc'),
     });
     
     // Clear cart and redirect
@@ -54,10 +55,12 @@ const Checkout = () => {
   
   return (
     <>
-      <Helmet>
-        <title>Оформление заказа - MebelCity</title>
-        <meta name="description" content="Оформление заказа и доставки" />
-      </Helmet>
+      <Seo
+        title={`${t('checkout.title')} — MebelCity`}
+        description={t('checkout.title')}
+        url="https://mebelcity.uz/checkout"
+        noindex={true}
+      />
 
       <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark transition-colors duration-300">
         <Navbar />
@@ -65,7 +68,7 @@ const Checkout = () => {
         <main className="flex-grow pt-20">
           <div className="container mx-auto px-4 py-12">
             <h1 className="text-3xl md:text-4xl font-bold text-navy-dark dark:text-white mb-8">
-              Оформление заказа
+              {t('checkout.title')}
             </h1>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -73,14 +76,14 @@ const Checkout = () => {
               <div className="lg:col-span-2">
                 <div className="bg-white dark:bg-navy/20 rounded-lg shadow p-6">
                   <h2 className="text-xl font-semibold mb-6 text-navy-dark dark:text-white">
-                    Контактная информация
+                    {t('checkout.contact_info')}
                   </h2>
                   
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Имя *
+                          {t('checkout.first_name')} *
                         </label>
                         <Input
                           id="firstName"
@@ -93,7 +96,7 @@ const Checkout = () => {
                       
                       <div>
                         <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Фамилия *
+                          {t('checkout.last_name')} *
                         </label>
                         <Input
                           id="lastName"
@@ -122,7 +125,7 @@ const Checkout = () => {
                       
                       <div>
                         <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Телефон *
+                          {t('contact.phone')} *
                         </label>
                         <Input
                           id="phone"
@@ -137,7 +140,7 @@ const Checkout = () => {
                     
                     <div>
                       <label htmlFor="address" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Адрес доставки *
+                        {t('checkout.address')} *
                       </label>
                       <Input
                         id="address"
@@ -150,7 +153,7 @@ const Checkout = () => {
                     
                     <div>
                       <label htmlFor="comment" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Комментарий к заказу
+                        {t('checkout.comment')}
                       </label>
                       <Textarea
                         id="comment"
@@ -162,7 +165,7 @@ const Checkout = () => {
                     </div>
                     
                     <Button type="submit" className="w-full bg-wood hover:bg-wood-dark text-white py-6">
-                      Подтвердить заказ
+                      {t('checkout.confirm')}
                     </Button>
                   </form>
                 </div>
@@ -172,7 +175,7 @@ const Checkout = () => {
               <div className="lg:col-span-1">
                 <div className="bg-white dark:bg-navy/20 rounded-lg shadow p-6 sticky top-24">
                   <h2 className="text-xl font-semibold mb-6 text-navy-dark dark:text-white">
-                    Ваш заказ
+                    {t('checkout.your_order')}
                   </h2>
                   
                   <div className="space-y-4 mb-6">
@@ -197,16 +200,16 @@ const Checkout = () => {
                   
                   <div className="space-y-4">
                     <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-300">Товары:</span>
+                      <span className="text-gray-600 dark:text-gray-300">{t('nav.catalog')}:</span>
                       <span className="font-medium text-navy-dark dark:text-white">{formatPrice(subtotal)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-300">Доставка:</span>
-                      <span className="font-medium text-navy-dark dark:text-white">Бесплатно</span>
+                      <span className="text-gray-600 dark:text-gray-300">{t('cart.delivery')}:</span>
+                      <span className="font-medium text-navy-dark dark:text-white">{t('cart.free')}</span>
                     </div>
                     <Separator className="dark:bg-gray-700" />
                     <div className="flex justify-between">
-                      <span className="text-lg font-semibold text-navy-dark dark:text-white">Итого:</span>
+                      <span className="text-lg font-semibold text-navy-dark dark:text-white">{t('cart.total')}:</span>
                       <span className="text-lg font-bold text-wood">{formatPrice(subtotal)}</span>
                     </div>
                   </div>

@@ -77,7 +77,7 @@ const About = () => {
         </script>
       </Seo>
 
-      <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark transition-colors duration-300">
+      <div className="min-h-screen flex flex-col bg-background transition-colors duration-300">
         <Navbar />
 
         <main className="flex-grow pt-8">
@@ -141,7 +141,7 @@ const About = () => {
                         className="text-center"
                       >
                         <div className="flex justify-center mb-2">
-                          <stat.icon className="h-8 w-8 text-blue-600" />
+                          <stat.icon className="h-8 w-8 text-emerald-600" />
                         </div>
                         <div className="text-2xl font-bold text-navy-dark dark:text-white">
                           {stat.value}
@@ -187,10 +187,10 @@ const About = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: 0.1 * index }}
-                    className="bg-white dark:bg-navy/40 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-navy hover:shadow-md transition-shadow"
+                    className="bg-card p-6 rounded-xl shadow-sm border border-gray-100 dark:border-navy hover:shadow-md transition-shadow"
                   >
                     <div className="bg-wood/10 rounded-full w-14 h-14 flex items-center justify-center mb-6">
-                      <feature.icon className="h-7 w-7 text-blue-600" />
+                      <feature.icon className="h-7 w-7 text-emerald-600" />
                     </div>
                     <h3 className="text-xl font-semibold mb-3 text-navy-dark dark:text-white">
                       {feature.title}

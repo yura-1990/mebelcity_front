@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 import tailwindAnimate from "tailwindcss-animate";
-import lineClamp from "@tailwindcss/line-clamp";
+
 
 export default {
   darkMode: ["class"],
@@ -39,19 +39,19 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         wood: {
-          DEFAULT: "#C19A6B",
-          light: "#D7B991",
-          dark: "#A67F4B",
+          DEFAULT: "#00A86B",
+          light: "#34D399",
+          dark: "#065F46",
         },
         navy: {
-          DEFAULT: "#2C3E50",
-          light: "#3A5066",
-          dark: "#1E2A36",
+          DEFAULT: "#0D1412",
+          light: "#1A2E28",
+          dark: "#050A09",
         },
         gold: {
-          DEFAULT: "#D4AF37",
-          light: "#E5C158",
-          dark: "#B39022",
+          DEFAULT: "#10B981",
+          light: "#6EE7B7",
+          dark: "#047857",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -131,5 +131,5 @@ export default {
       },
     },
   },
-  plugins: [tailwindAnimate, lineClamp],
+  plugins: [tailwindAnimate],
 } satisfies Config;

@@ -1,6 +1,5 @@
 
-import React, {useEffect, useState} from 'react';
-import { Helmet } from 'react-helmet';
+import React, {useEffect, useState, useCallback} from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -12,6 +11,9 @@ import { useCart } from '@/contexts/CartContext';
 import {useStore} from "@/store";
 import {imageUrl} from "@/axios";
 import LupaZoom from "@/components/LupaZoom.tsx";
+import Seo from '@/components/Seo';
+import ProductSchema from '@/components/schema/ProductSchema';
+import BreadcrumbSchema from '@/components/schema/BreadcrumbSchema';
 
 interface Product {
   id: number;
@@ -46,26 +48,6 @@ const ProductDetail = () => {
 
   const product = products.find(p => p.id.toString() == slug);
 
-  if (!product) {
-    return (
-      <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark">
-        <Navbar />
-        <div className="flex-grow flex items-center justify-center">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-navy-dark dark:text-white">Товар не найден</h2>
-            <p className="mt-2 text-gray-600 dark:text-gray-300">
-              Извините, запрашиваемый товар не существует или был удален.
-            </p>
-            <Button className="mt-6 bg-wood hover:bg-wood-dark text-white" asChild>
-              <a href="/catalog">Вернуться в каталог</a>
-            </Button>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
   const increaseQuantity = () => {
     setQuantity(q => q + 1);
   };
@@ -76,41 +58,87 @@ const ProductDetail = () => {
     }
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = useCallback(() => {
+    if (!product) return;
     addItem({
         id: product.id,
-        name: product.name,
-        price: product.price,
+        name: product.name || '',
+        price: Number(product.price) || 0,
         quantity: quantity,
-        image: product?.images[0],
+        image: product?.images?.[0] || '',
         slug: product.id.toString(),
     });
-  };
+  }, [addItem, product, quantity]);
 
-  const handleAddToFavorites = () => {
-    toast("Добавлено в избранное", {
-      description: `${product.name} добавлен в избранное`,
+  const handleAddToFavorites = useCallback(() => {
+    if (!product) return;
+    toast(t('toast.added_to_favorites'), {
+      description: t('toast.added_to_favorites_desc').replace('{name}', product.name || ''),
     });
-  };
+  }, [product?.name]);
 
-  const handleShare = () => {
-    toast("Ссылка скопирована", {
-      description: "Теперь вы можете поделиться товаром с друзьями",
+  const handleShare = useCallback(() => {
+    toast(t('toast.link_copied'), {
+      description: t('toast.link_copied_desc'),
     });
-  };
+  }, []);
+
+  if (!product) {
+    return (
+      <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark">
+        <Navbar />
+        <div className="flex-grow flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-navy-dark dark:text-white">{t('product.not_found')}</h2>
+            <p className="mt-2 text-gray-600 dark:text-gray-300">
+              {t('product.not_found_desc')}
+            </p>
+            <Button className="mt-6 bg-wood hover:bg-wood-dark text-white" asChild>
+              <a href="/ofisnaya-mebel">{t('product.back_to_catalog')}</a>
+            </Button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   function stripHtml(html: string): string {
     return html?.replace(/<[^>]+>/g, '')?.replace(/\s+/g, ' ').trim()
   }
 
+  const productUrl = `https://mebelcity.uz/ofisnaya-mebel/product/${product.id}`;
+  const productImage = product?.images?.[0] ? `${imageUrl}/${product.images[0]}` : 'https://mebelcity.uz/assets/images/google/loft-table.webp';
+
   return (
     <>
-      <Helmet>
-        <title>{product.name} - MebelCity</title>
-        <meta name="description" content={stripHtml(product.description)} />
-      </Helmet>
+      <Seo
+        title={`${product.name} — купить в MebelCity | Офисная мебель Ташкент`}
+        description={stripHtml(product.description) || `${product.name} — офисная мебель от MebelCity в Ташкенте. Качественные материалы, доставка по Узбекистану.`}
+        url={productUrl}
+        image={productImage}
+        ogType="product"
+        keywords={`${product.name}, офисная мебель Ташкент, купить ${product.name}, MebelCity`}
+      >
+        <ProductSchema
+          name={product.name}
+          description={stripHtml(product.description) || product.name}
+          sku={product.id.toString()}
+          image={productImage}
+          price={product.price?.toString() || '0'}
+          currency="UZS"
+          url={productUrl}
+        />
+        <BreadcrumbSchema
+          items={[
+            { name: 'Главная', url: 'https://mebelcity.uz/' },
+            { name: 'Каталог', url: 'https://mebelcity.uz/ofisnaya-mebel' },
+            { name: product.name, url: productUrl },
+          ]}
+        />
+      </Seo>
 
-      <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark transition-colors duration-300">
+      <div className="min-h-screen flex flex-col bg-background transition-colors duration-300">
         <Navbar />
         {
             products.length > 0 &&
@@ -122,7 +150,7 @@ const ProductDetail = () => {
                         <LupaZoom src={`${imageUrl}/${product.images[0]}`} zoomScale={5}/>
                       </div>
                       <div className={'flex min-[800px]:hidden'}>
-                        <img src={`${imageUrl}/${product.images[0]}`} alt="mebel" />
+                        <img src={`${imageUrl}/${product.images[0]}`} alt={product.name || "Фото товара"} />
                       </div>
 
                       <div className="">
@@ -142,6 +170,7 @@ const ProductDetail = () => {
                                     onClick={decreaseQuantity}
                                     disabled={quantity === 1}
                                     className="border-gray-300 dark:border-gray-600"
+                                    aria-label="Уменьшить количество"
                                 >
                                   <Minus size={16} />
                                 </Button>
@@ -153,6 +182,7 @@ const ProductDetail = () => {
                                     size="icon"
                                     onClick={increaseQuantity}
                                     className="border-gray-300 dark:border-gray-600"
+                                    aria-label="Увеличить количество"
                                 >
                                   <Plus size={16} />
                                 </Button>

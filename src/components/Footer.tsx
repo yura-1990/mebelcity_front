@@ -44,8 +44,10 @@ const Footer = () => {
           >
             <img
                 src={logo}
-                alt="mebelcity home logo"
-                className="h-10"
+                alt="MebelCity — офисная мебель в Ташкенте"
+                className="h-8 sm:h-10 w-auto object-contain"
+                width="160"
+                height="40"
                 loading="lazy"
             />
           </MotionLink>
@@ -55,11 +57,11 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-3 text-[16px] sm:text-[20px] md:text-[25px]">{t('footer.contacts')}</h3>
             <ul className="space-y-4">
               <li className="flex items-center">
-                <Phone size={18} className="text-blue-600 mr-3 shrink-0" />
+                <Phone size={18} className="text-emerald-600 mr-3 shrink-0" />
                 <span className="text-white/70 text-[16px] sm:text-[16px] md:text-[20px]">+998 90 183 22 33</span>
               </li>
               <li className="flex items-center">
-                <Mail size={18} className="text-blue-600 mr-3 shrink-0" />
+                <Mail size={18} className="text-emerald-600 mr-3 shrink-0" />
                 <span className="text-white/70 text-wrap text-[16px] sm:text-[16px] md:text-[20px]">umarovrassel@gmail.com</span>
               </li>
 
@@ -74,10 +76,10 @@ const Footer = () => {
                 {/* <a href="#" className="text-white/70 hover:text-white transition-colors">
                     <Facebook size={20} />
                   </a> */}
-                <a href="#" className="text-white/70 hover:text-white transition-colors">
+                <a href="https://t.me/mebelcity_uz" className="text-white/70 hover:text-white transition-colors" aria-label="MebelCity в Telegram" target="_blank" rel="noopener noreferrer">
                   <FaTelegramPlane size={20} />
                 </a>
-                <a href="#" className="text-white/70 hover:text-white transition-colors">
+                <a href="https://www.instagram.com/mebelcity.uz" className="text-white/70 hover:text-white transition-colors" aria-label="MebelCity в Instagram" target="_blank" rel="noopener noreferrer">
                   <Instagram size={20} />
                 </a>
                 {/* <a href="#" className="text-white/70 hover:text-white transition-colors">
@@ -94,11 +96,9 @@ const Footer = () => {
               <ul className="space-y-4">
                 <li className="text-white/70 text-[16px] sm:text-[14px] md:text-[18px]">
                   <div className={'flex items-center'}>
-                    <MapPin size={22} className="text-red-600 mr-3 shrink-0" />
+                    <MapPin size={22} className="text-red-700 mr-3 shrink-0" />
                     <a href={'/contact#map'}>
-                      Toshkent viloyati, Zangiota tumani,
-                      <br />
-                      Nazrbek, Xorazmiy ko`chasi, 82 uy
+                      {t('contact.address_full')}
                     </a>
                   </div>
                 </li>
@@ -108,8 +108,7 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-3 text-[16px] sm:text-[20px] md:text-[25px]">{t('footer.workingHours')}</h3>
             <ul className="space-y-4">
               <li className="text-white/70 text-[16px] sm:text-[16px] md:text-[20px]">
-
-                Пн-Сб: 10:00 - 17:00
+                {t('contact.working_hours_full')}
               </li>
             </ul>
 

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Helmet} from 'react-helmet';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import {Tag, CheckCircle} from 'lucide-react';
@@ -7,8 +6,12 @@ import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {Link} from 'react-router-dom';
 import {toast} from '@/components/ui/sonner';
+import Seo from '@/components/Seo';
+
+import { useLanguage } from '@/lib/i18n/context';
 
 const ServiceOffers = () => {
+    const { t } = useLanguage();
 
     const [loading, setLoading] = useState(false);
 
@@ -26,11 +29,12 @@ const ServiceOffers = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Специальные предложения - MebelCity</title>
-                <meta name="description"
-                      content="Эксклюзивные скидки и специальные предложения для корпоративных клиентов от MebelCity"/>
-            </Helmet>
+            <Seo
+                title="Специальные предложения на офисную мебель — MebelCity Ташкент"
+                description="Эксклюзивные скидки до 15% для корпоративных клиентов на офисную мебель от MebelCity. Бесплатная доставка, рассрочка, гарантия."
+                url="https://mebelcity.uz/services/offers"
+                keywords="скидки офисная мебель, корпоративные скидки мебель Ташкент, MebelCity акции"
+            />
 
             <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark shadow-lg">
                 <Navbar/>
@@ -39,42 +43,38 @@ const ServiceOffers = () => {
                             <main className="flex-grow pt-[50px]">
                                 <div className="container mx-auto px-4 py-12">
                                     <div className=" mx-auto">
-                                        <h1 className="min-[1600px]:text-4xl xl:text-4xl text-2xl font-bold text-navy-dark dark:text-white mb-3">Специальные предложения</h1>
+                                        <h1 className="min-[1600px]:text-4xl xl:text-4xl text-2xl font-bold text-navy-dark dark:text-white mb-3">{t('offers.title')}</h1>
                                         <p className="min-[1600px]:text-2xl xl:text-xl text-md font-semibold text-gray-600 dark:text-gray-300 mb-8 ">
-                                            Эксклюзивные скидки для корпоративных клиентов при заказе комплексного оснащения
-                                            офиса
-                                            или больших
-                                            объемов мебели для любых помещений.
+                                            {t('offers.subtitle')}
                                         </p>
 
                                         <div className="flex items-center mb-5">
-                                            <Tag className="w-12 h-12 text-blue-600 mr-4"/>
-                                            <h2 className="min-[1600px]:text-3xl text-xl 2xl:text-xl xl:text-3xl font-semibold text-navy-dark  dark:text-white">Преимущества
-                                                корпоративных предложений</h2>
+                                            <Tag className="w-12 h-12 text-emerald-600 mr-4"/>
+                                            <h2 className="min-[1600px]:text-3xl text-xl 2xl:text-xl xl:text-3xl font-semibold text-navy-dark  dark:text-white">{t('offers.advantages_title')}</h2>
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
                                             {[
                                                 {
-                                                    "title": "Индивидуальные скидки",
-                                                    "description": "Размер скидки зависит от объёма заказа и может достигать 15% от розничной цены."
+                                                    "title": t('offers.advantage1_title'),
+                                                    "description": t('offers.advantage1_desc')
                                                 },
                                                 {
-                                                    "title": "Бесплатная доставка",
-                                                    "description": "При заказе на определённую сумму доставка и сборка мебели осуществляется бесплатно по городу Ташкенту."
+                                                    "title": t('offers.advantage2_title'),
+                                                    "description": t('offers.advantage2_desc')
                                                 },
                                                 {
-                                                    "title": "Гарантийное обслуживание",
-                                                    "description": "Расширенная гарантия для корпоративных клиентов — до 1 лет на всю мебель."
+                                                    "title": t('offers.advantage3_title'),
+                                                    "description": t('offers.advantage3_desc')
                                                 },
                                                 {
-                                                    "title": "Индивидуальные условия оплаты",
-                                                    "description": "Возможна рассрочка, отсрочка платежа или поэтапная оплата."
+                                                    "title": t('offers.advantage4_title'),
+                                                    "description": t('offers.advantage4_desc')
                                                 }
                                             ].map((item, index) => (
-                                                <div key={index} className="flex p-6 bg-gray-50 dark:bg-navy/30 rounded-xl">
+                                                <div key={index} className="flex p-6 bg-card rounded-xl">
                                                     <CheckCircle
-                                                        className="w-6 h-6 text-blue-600 mr-4 flex-shrink-0 mt-1 text-xl"/>
+                                                        className="w-6 h-6 text-emerald-600 mr-4 flex-shrink-0 mt-1 text-xl"/>
                                                     <div>
                                                         <h3 className="font-bold text-xl text-navy-dark dark:text-white xl:text-2xl  mb-2">{item.title}</h3>
                                                         <p className="text-gray-600 text-lg font-semibold dark:text-gray-300  min-[1600px]:text-xl">{item.description}</p>
@@ -140,7 +140,7 @@ const ServiceOffers = () => {
                         : <div role="status" className={'h-[62vh] flex items-center justify-center'}>
                             <div>
                                 <svg aria-hidden="true"
-                                     className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                     className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-emerald-600"
                                      viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"

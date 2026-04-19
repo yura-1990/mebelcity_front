@@ -32,13 +32,17 @@ const AboutSection = () => {
       <div className="relative min-h-screen w-full">
 
       <div className="container min-h-[100vh] relative flex items-center justify-center mx-auto">
-        <div
-            className="absolute inset-1 bg-cover bg-about bg-top top-[30px]"
-            style={{
-              backgroundImage: `url('${about}')`,
-              backgroundPosition: 'bottom',
-            }}
-        ></div>
+        <div className="absolute inset-1 overflow-hidden top-[30px] rounded-2xl">
+            <img 
+              src={about} 
+              alt="О компании MebelCity" 
+              className="w-full h-full object-cover"
+              style={{ objectPosition: 'bottom' }}
+              width="1920"
+              height="1080"
+              loading="lazy" 
+            />
+        </div>
 
         <div className="relative z-10 container w-full mx-auto px-3 h-full flex flex-col items-center justify-center">
 
@@ -60,7 +64,7 @@ const AboutSection = () => {
       <div className={'container mx-auto px-4 my-5'}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {features.map((feature, index) => (
-              <Animable index={index + 1} key={index} className={'h-full dark:border-navy/50 bg-white dark:bg-navy/30 p-6 rounded-xl shadow-sm border border-gray-100'}>
+              <Animable index={index + 1} key={index} className={'h-full dark:border-navy/50 bg-card p-6 rounded-xl shadow-sm border border-gray-100'}>
                 <FeatureCard key={index} feature={feature} index={index} />
               </Animable>
           ))}
@@ -89,7 +93,7 @@ const FeatureCard = ({ feature, index }: FeatureCardProps) => {
       )}
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      <CheckCircle className="h-10 w-10 text-blue-600 mb-4" />
+      <CheckCircle className="h-10 w-10 text-emerald-600 mb-4" />
       <h3 className="text-lg font-semibold text-navy-dark dark:text-white mb-2">{t(feature.title)}</h3>
       <p className="text-gray-600 dark:text-gray-300">{t(feature.description)}</p>
     </div>

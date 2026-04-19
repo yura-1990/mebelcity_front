@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {Helmet} from 'react-helmet';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import {Package, ArrowRight} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Separator} from '@/components/ui/separator';
 import {toast} from '@/components/ui/sonner';
+import Seo from '@/components/Seo';
+
+import { useLanguage } from '@/lib/i18n/context';
 
 const ServiceDesign = () => {
+    const { t } = useLanguage();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -24,11 +27,12 @@ const ServiceDesign = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Индивидуальный дизайн - MebelCity</title>
-                <meta name="description"
-                      content="Разработка уникальных мебельных решений под ваши потребности и корпоративный стиль"/>
-            </Helmet>
+            <Seo
+                title="Индивидуальный дизайн офисной мебели — MebelCity Ташкент"
+                description="Разработка уникальных мебельных решений под ваши потребности и корпоративный стиль. 3D-визуализация, подбор материалов, профессиональная установка."
+                url="https://mebelcity.uz/services/design"
+                keywords="дизайн офисной мебели Ташкент, мебель на заказ, индивидуальный дизайн мебели MebelCity"
+            />
             <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark">
                 <Navbar/>
                 {
@@ -36,52 +40,48 @@ const ServiceDesign = () => {
                             <main className="flex-grow pt-24">
                                 <div className="container 2xl:px-0 xl:px-[150px] mx-auto px-4 py-12">
                                     <div className=" mx-auto">
-                                        <h1 className="text-4xl font-bold text-navy-dark dark:text-white mb-6">Индивидуальный
-                                            дизайн</h1>
+                                        <h1 className="text-4xl font-bold text-navy-dark dark:text-white mb-6">{t('design.title')}</h1>
                                         <p className="text-lg text-gray-600 dark:text-gray-300 mb-12">
-                                            Разработка уникальных решений под ваши потребности и корпоративный стиль. Наши
-                                            дизайнеры создадут мебель, которая идеально впишется в ваше пространство и
-                                            подчеркнет индивидуальность интерьера.
+                                            {t('design.subtitle')}
                                         </p>
 
                                         <div className="flex items-center mb-8">
-                                            <Package className="w-12 h-12 text-blue-600 mr-4"/>
-                                            <h2 className="text-2xl font-semibold text-navy-dark dark:text-white">Этапы
-                                                создания индивидуальной мебели</h2>
+                                            <Package className="w-12 h-12 text-emerald-600 mr-4"/>
+                                            <h2 className="text-2xl font-semibold text-navy-dark dark:text-white">{t('design.stages_title')}</h2>
                                         </div>
 
                                         <div className="space-y-8 mb-12">
                                             {[
                                                 {
                                                     step: "01",
-                                                    title: "Консультация и планирование",
-                                                    description: "Первая встреча с нашим дизайнером, обсуждение ваших потребностей, предпочтений и бюджета. Анализ пространства и функциональных требований."
+                                                    title: t('design.stage1_title'),
+                                                    description: t('design.stage1_desc')
                                                 },
                                                 {
                                                     step: "02",
-                                                    title: "Разработка концепции",
-                                                    description: "Создание эскизов и 3D-моделей будущей мебели. Подбор материалов, цветовой гаммы и фурнитуры. Представление нескольких вариантов дизайна на выбор."
+                                                    title: t('design.stage2_title'),
+                                                    description: t('design.stage2_desc')
                                                 },
                                                 {
                                                     step: "03",
-                                                    title: "Утверждение проекта",
-                                                    description: "Обсуждение предложенных вариантов, внесение корректировок и окончательное утверждение дизайна, материалов и сроков изготовления."
+                                                    title: t('design.stage3_title'),
+                                                    description: t('design.stage3_desc')
                                                 },
                                                 {
                                                     step: "04",
-                                                    title: "Производство и установка",
-                                                    description: "Изготовление мебели на нашем современном производстве. Контроль качества на всех этапах. Доставка и профессиональная установка готовой мебели."
+                                                    title: t('design.stage4_title'),
+                                                    description: t('design.stage4_desc')
                                                 }
                                             ].map((item, index) => (
                                                 <div key={index} className="flex gap-6">
                                                     <div
-                                                        className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+                                                        className="w-12 h-12 bg-emerald-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
                                                         {item.step}
                                                     </div>
                                                     <div>
                                                         <h3 className="text-xl font-semibold text-navy-dark dark:text-white mb-2">{item.title}</h3>
                                                         <p className="text-gray-600 dark:text-gray-300">{item.description}</p>
-                                                        {/*{index < 3 && <ArrowRight className="text-blue-600 mt-4 ml-auto" />}*/}
+                                                        {/*{index < 3 && <ArrowRight className="text-emerald-600 mt-4 ml-auto" />}*/}
                                                     </div>
                                                 </div>
                                             ))}
@@ -91,33 +91,32 @@ const ServiceDesign = () => {
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
                                             <div>
-                                                <h2 className="text-2xl font-semibold text-navy-dark dark:text-white mb-6">Наши
-                                                    возможности</h2>
+                                                <h2 className="text-2xl font-semibold text-navy-dark dark:text-white mb-6">{t('design.capabilities_title')}</h2>
                                                 <ul className="space-y-3 text-gray-600 dark:text-gray-300">
-                                                    <li className="flex hover:text-blue-600 items-center gap-2">
+                                                    <li className="flex hover:text-emerald-600 items-center gap-2">
                                                         <span
-                                                            className="w-2 h-2 bg-wood hover:text-blue-600 rounded-full"></span>
-                                                        <span className={'hover:text-blue-600'}>Мебель любой сложности и конфигурации</span>
+                                                            className="w-2 h-2 bg-wood hover:text-emerald-600 rounded-full"></span>
+                                                        <span className={'hover:text-emerald-600'}>{t('design.capability1')}</span>
                                                     </li>
-                                                    <li className="flex hover:text-blue-600 items-center gap-2">
+                                                    <li className="flex hover:text-emerald-600 items-center gap-2">
                                                         <span
-                                                            className="w-2 h-2 bg-wood hover:text-blue-600 rounded-full"></span>
-                                                        <span className={'hover:text-blue-600'}>Широкий выбор материалов и фурнитуры</span>
+                                                            className="w-2 h-2 bg-wood hover:text-emerald-600 rounded-full"></span>
+                                                        <span className={'hover:text-emerald-600'}>{t('design.capability2')}</span>
                                                     </li>
-                                                    <li className="flex hover:text-blue-600 items-center gap-2">
+                                                    <li className="flex hover:text-emerald-600 items-center gap-2">
                                                         <span
-                                                            className="w-2 h-2 bg-wood hover:text-blue-600 rounded-full"></span>
-                                                        <span className={'hover:text-blue-600'}>Интеграция вашего корпоративного стиля</span>
+                                                            className="w-2 h-2 bg-wood hover:text-emerald-600 rounded-full"></span>
+                                                        <span className={'hover:text-emerald-600'}>{t('design.capability3')}</span>
                                                     </li>
-                                                    <li className="flex hover:text-blue-600 items-center gap-2">
+                                                    <li className="flex hover:text-emerald-600 items-center gap-2">
                                                         <span
-                                                            className="w-2 h-2 bg-wood hover:text-blue-600 rounded-full"></span>
-                                                        <span className={'hover:text-blue-600'}>Эргономичные решения для максимального комфорта</span>
+                                                            className="w-2 h-2 bg-wood hover:text-emerald-600 rounded-full"></span>
+                                                        <span className={'hover:text-emerald-600'}>{t('design.capability4')}</span>
                                                     </li>
-                                                    <li className="flex hover:text-blue-600 items-center gap-2">
+                                                    <li className="flex hover:text-emerald-600 items-center gap-2">
                                                         <span
-                                                            className="w-2 h-2 bg-wood hover:text-blue-600 rounded-full"></span>
-                                                        <span className={'hover:text-blue-600'}>Функциональная мебель для оптимизации пространства</span>
+                                                            className="w-2 h-2 bg-wood hover:text-emerald-600 rounded-full"></span>
+                                                        <span className={'hover:text-emerald-600'}>{t('design.capability5')}</span>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -162,7 +161,7 @@ const ServiceDesign = () => {
                         : <div role="status" className={'h-[60vh] flex items-center justify-center'}>
                             <div>
                                 <svg aria-hidden="true"
-                                     className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                     className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-emerald-600"
                                      viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"

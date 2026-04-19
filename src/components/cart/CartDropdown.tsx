@@ -12,6 +12,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Separator } from '@/components/ui/separator';
+import { useLanguage } from '@/lib/i18n/context';
 
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat('ru-RU').format(price) + ' сум';
@@ -19,6 +20,7 @@ const formatPrice = (price: number) => {
 
 export function CartDropdown() {
   const { items, removeItem, updateQuantity, itemCount, subtotal, isCartOpen, setIsCartOpen } = useCart();
+  const { t } = useLanguage();
 
   const handleOpenChange = (open: boolean) => {
     setIsCartOpen(open);
@@ -31,6 +33,7 @@ export function CartDropdown() {
           variant="ghost" 
           size="custom" 
           className="relative px-2 py-2 dark:hover:bg-navy-dark/50 hover:text-accent-foreground bg-transparent border border-white/20 hover:bg-white/20 dark:hover:bg-navy-dark/50"
+          aria-label={t('aria.open_cart')}
         >
           <ShoppingCart className="h-[1.2rem] w-[1.2rem] text-white " />
           {itemCount > 0 && (
@@ -42,15 +45,15 @@ export function CartDropdown() {
       </SheetTrigger>
       <SheetContent className="w-full sm:max-w-md">
         <SheetHeader>
-          <SheetTitle className="text-xl font-bold">Корзина</SheetTitle>
+          <SheetTitle className="text-xl font-bold">{t('cart.title')}</SheetTitle>
         </SheetHeader>
         <div className="mt-8 flex flex-col h-[calc(100vh-10rem)]">
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <ShoppingCart className="h-16 w-16 text-gray-300 mb-4" />
-              <p className="text-gray-500 dark:text-gray-400 mb-6">Ваша корзина пуста</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-6">{t('cart.empty')}</p>
               <Button className="bg-wood hover:bg-wood-dark text-white" onClick={() => setIsCartOpen(false)}>
-                <Link to="/catalog">Перейти в каталог</Link>
+                <Link to="/catalog">{t('product.back_to_catalog')}</Link>
               </Button>
             </div>
           ) : (
@@ -77,6 +80,7 @@ export function CartDropdown() {
                         size="icon"
                         className="h-7 w-7"
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        aria-label={t('aria.decrease')}
                       >
                         <Minus className="h-3 w-3" />
                       </Button>
@@ -86,6 +90,7 @@ export function CartDropdown() {
                         size="icon"
                         className="h-7 w-7"
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        aria-label={t('aria.increase')}
                       >
                         <Plus className="h-3 w-3" />
                       </Button>
@@ -96,6 +101,7 @@ export function CartDropdown() {
                       size="icon"
                       onClick={() => removeItem(item.id)}
                       className="text-red-500 hover:text-red-700"
+                      aria-label={t('aria.remove_item')}
                     >
                       <Trash className="h-4 w-4" />
                     </Button>
@@ -106,19 +112,19 @@ export function CartDropdown() {
               <div className="mt-6 space-y-4">
                 <Separator />
                 <div className="flex justify-between">
-                  <span className="font-medium">Итого:</span>
+                  <span className="font-medium">{t('cart.total')}:</span>
                   <span className="font-bold">{formatPrice(subtotal)}</span>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
-                  <Button variant="outline" className="w-full" onClick={() => setIsCartOpen(false)}>
-                    <Link to="/cart" className="w-full h-full flex items-center justify-center">
-                      Просмотр корзины
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to="/cart" className="w-full h-full flex items-center justify-center" onClick={() => setIsCartOpen(false)}>
+                      {t('cart.view_cart')}
                     </Link>
                   </Button>
-                  <Button className="w-full bg-wood hover:bg-wood-dark text-white">
+                  <Button className="w-full bg-wood hover:bg-wood-dark text-white" asChild>
                     <Link to="/checkout" className="w-full h-full flex items-center justify-center" onClick={() => setIsCartOpen(false)}>
-                      Оформить заказ
+                      {t('cart.checkout')}
                     </Link>
                   </Button>
                 </div>

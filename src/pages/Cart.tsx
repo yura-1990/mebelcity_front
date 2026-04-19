@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { Minus, Plus, Trash, ShoppingCart } from 'lucide-react';
 import Navbar from '@/components/Navbar';
@@ -8,6 +7,7 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { Separator } from '@/components/ui/separator';
+import Seo from '@/components/Seo';
 
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat('ru-RU').format(price) + ' сум';
@@ -15,6 +15,7 @@ const formatPrice = (price: number) => {
 
 const Cart = () => {
   const { items, removeItem, updateQuantity, clearCart, subtotal } = useCart();
+  const { t } = useLanguage();
   
   const handleQuantityChange = (itemId: number, type: 'increase' | 'decrease') => {
     const item = items.find(i => i.id === itemId);
@@ -26,10 +27,12 @@ const Cart = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Корзина - MebelCity</title>
-        <meta name="description" content="Просмотр товаров в корзине и оформление заказа" />
-      </Helmet>
+      <Seo
+        title={`${t('cart.title')} — MebelCity | ${t('nav.catalog')}`}
+        description={t('cart.empty')}
+        url="https://mebelcity.uz/cart"
+        noindex={true}
+      />
 
       <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark transition-colors duration-300">
         <Navbar />
@@ -37,7 +40,7 @@ const Cart = () => {
         <main className="flex-grow pt-20">
           <div className="container mx-auto px-4 py-12">
             <h1 className="text-3xl md:text-4xl font-bold text-navy-dark dark:text-white mb-8">
-              Корзина
+              {t('cart.title')}
             </h1>
             
             {items.length === 0 ? (
@@ -46,13 +49,13 @@ const Cart = () => {
                   <ShoppingCart size={80} className="text-gray-300" />
                 </div>
                 <h2 className="text-2xl font-semibold mb-4 text-navy-dark dark:text-white">
-                  Ваша корзина пуста
+                  {t('cart.empty')}
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-md mx-auto">
-                  Похоже, вы еще не добавили товары в корзину. Начните с просмотра наших товаров.
+                  {t('cart.empty_desc') || 'Похоже, вы еще не добавили товары в корзину.'}
                 </p>
-                <Button className="bg-wood hover:bg-wood-dark text-white">
-                  <Link to="/catalog">Перейти в каталог</Link>
+                <Button className="bg-wood hover:bg-wood-dark text-white" asChild>
+                  <Link to="/catalog">{t('product.back_to_catalog')}</Link>
                 </Button>
               </div>
             ) : (
@@ -61,7 +64,7 @@ const Cart = () => {
                 <div className="lg:col-span-2 bg-white dark:bg-navy/20 rounded-lg shadow p-6">
                   <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold text-navy-dark dark:text-white">
-                      Товары в корзине ({items.reduce((acc, item) => acc + item.quantity, 0)})
+                      {t('cart.items_count').replace('{count}', items.reduce((acc, item) => acc + item.quantity, 0).toString())}
                     </h2>
                     <Button
                       variant="ghost"
@@ -70,7 +73,7 @@ const Cart = () => {
                       onClick={clearCart}
                     >
                       <Trash className="h-4 w-4 mr-2" />
-                      Очистить корзину
+                      {t('cart.clear')}
                     </Button>
                   </div>
                   
@@ -94,6 +97,7 @@ const Cart = () => {
                                 className="h-8 w-8"
                                 onClick={() => handleQuantityChange(item.id, 'decrease')}
                                 disabled={item.quantity <= 1}
+                                aria-label={t('aria.decrease')}
                               >
                                 <Minus className="h-3 w-3" />
                               </Button>
@@ -105,6 +109,7 @@ const Cart = () => {
                                 size="icon" 
                                 className="h-8 w-8"
                                 onClick={() => handleQuantityChange(item.id, 'increase')}
+                                aria-label={t('aria.increase')}
                               >
                                 <Plus className="h-3 w-3" />
                               </Button>
@@ -119,6 +124,7 @@ const Cart = () => {
                                 size="icon"
                                 onClick={() => removeItem(item.id)}
                                 className="text-red-500 hover:text-red-700"
+                                aria-label={t('aria.remove_item')}
                               >
                                 <Trash className="h-4 w-4" />
                               </Button>
@@ -135,33 +141,33 @@ const Cart = () => {
                 <div className="lg:col-span-1">
                   <div className="bg-white dark:bg-navy/20 rounded-lg shadow p-6 sticky top-24">
                     <h2 className="text-xl font-semibold mb-6 text-navy-dark dark:text-white">
-                      Сумма заказа
+                      {t('cart.summary')}
                     </h2>
                     
                     <div className="space-y-4">
                       <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-gray-300">Товары ({items.reduce((acc, item) => acc + item.quantity, 0)}):</span>
+                        <span className="text-gray-600 dark:text-gray-300">{t('nav.catalog')} ({items.reduce((acc, item) => acc + item.quantity, 0)}):</span>
                         <span className="font-medium text-navy-dark dark:text-white">{formatPrice(subtotal)}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-gray-300">Доставка:</span>
-                        <span className="font-medium text-navy-dark dark:text-white">Бесплатно</span>
+                        <span className="text-gray-600 dark:text-gray-300">{t('cart.delivery')}:</span>
+                        <span className="font-medium text-navy-dark dark:text-white">{t('cart.free')}</span>
                       </div>
                       <Separator className="dark:bg-gray-700" />
                       <div className="flex justify-between">
-                        <span className="text-lg font-semibold text-navy-dark dark:text-white">Итого:</span>
+                        <span className="text-lg font-semibold text-navy-dark dark:text-white">{t('cart.total')}:</span>
                         <span className="text-lg font-bold text-wood">{formatPrice(subtotal)}</span>
                       </div>
                       
-                      <Button className="w-full bg-wood hover:bg-wood-dark text-white py-6 mt-4">
+                      <Button className="w-full bg-wood hover:bg-wood-dark text-white py-6 mt-4" asChild>
                         <Link to="/checkout" className="w-full h-full flex items-center justify-center">
-                          Оформить заказ
+                          {t('cart.proceed_to_checkout')}
                         </Link>
                       </Button>
                       
                       <div className="text-center mt-4">
                         <Link to="/catalog" className="text-navy-dark dark:text-white hover:text-wood dark:hover:text-wood-light transition-colors text-sm">
-                          Продолжить покупки
+                          {t('cart.continue_shopping')}
                         </Link>
                       </div>
                     </div>

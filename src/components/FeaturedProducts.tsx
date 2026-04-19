@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Heart, ShoppingCart } from 'lucide-react';
@@ -89,18 +89,18 @@ interface ProductCardProps {
   product: Product;
 }
 
-export const ProductCard = ({ product }: ProductCardProps) => {
+export const ProductCard = React.memo(({ product }: ProductCardProps) => {
   const { addItem } = useCart();
   const { t } = useLanguage();
   const { transliterate } = useTransliterateSlug()
 
-  const handleAddToFavorites = () => {
+  const handleAddToFavorites = useCallback(() => {
     toast('Добавлено в избранное', {
       description: `"${product.name}" добавлен в избранное`,
     });
-  };
+  }, [product.name]);
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     const button = e.currentTarget;
     button.classList.add('animate-ping');
@@ -108,26 +108,26 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       button.classList.remove('animate-ping');
       addItem({
         id: product.id,
-        name: product.name,
-        price: product.price,
+        name: product.name || '',
+        price: Number(product.price) || 0,
         quantity: 1,
-        image: product.images[0],
-        slug: product.price,
+        image: product.images?.[0] || '',
+        slug: product.id.toString(),
       });
     }, 500);
-  };
+  }, [addItem, product]);
 
-  const handleShare = (e: React.MouseEvent) => {
+  const handleShare = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     toast('Поделиться', {
       description: `Ссылка на "${product.name}" скопирована в буфер обмена`,
     });
-  };
+  }, [product.name]);
 
   return (
     <div
       className={cn(
-        'group bg-white dark:bg-navy/30 rounded-md border shadow-md h-full',
+        'group bg-card rounded-md border shadow-md h-full',
         'transition-all duration-300 flex flex-col'
       )}
     >
@@ -136,7 +136,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <img
             src={`${imageUrl}/${product?.images[0]}`}
             alt={product.name}
-            className="object-cover transition-transform duration-500 shadow-md group-hover:scale-110"
+            className="object-cover w-full aspect-[4/3] transition-transform duration-500 shadow-md group-hover:scale-110"
+            width="400"
+            height="300"
             loading="lazy"
           />
         </Link>
@@ -146,6 +148,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             variant="outline"
             className="bg-white/70 border-0 backdrop-blur-sm hover:bg-white dark:hover:bg-navy/90 rounded-full h-10 w-10 text-navy"
             onClick={handleAddToCart}
+            aria-label="В корзину"
           >
             <ShoppingCart size={18} />
           </Button>
@@ -165,8 +168,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         }
         <div className="absolute bottom-1 left-1">
           <span
-            className={`inline-block ${product.exist ? "bg-green-500" : "bg-red-500"} text-center backdrop-blur-sm text-xs text-white px-2 py-1 rounded`}>
-            {product.exist ? "В наличии" : "На заказ"}
+            className={`inline-block ${product.exist ? "bg-emerald-700" : "bg-red-700"} text-center backdrop-blur-sm text-xs text-white px-2 py-1 rounded`}>
+            {product.exist ? t('status.in_stock') : t('status.on_order')}
           </span>
         </div>
       </div>
@@ -174,7 +177,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       <div className="lg:p-5 md:p-3 p-1 flex flex-col  flex-grow dark:text-white">
         <Link to={`/ofisnaya-mebel/${transliterate(product.name)}/${product.exist ? 'mebel-na-zakaz' : 'mebel-v-nalichii'}/${product.id}`}>
           <h3 className="text-[14px] lg:text-[20px] font-semibold mb-2
-    text-navy-dark dark:text-white hover:text-blue-600 dark:hover:text-blue-600
+    text-navy-dark dark:text-white hover:text-emerald-600 dark:hover:text-emerald-600
     transition-colors
     line-clamp-3
     leading-[1.2rem] lg:leading-[1.5rem]  /* your line height */
@@ -187,26 +190,27 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         <div className={'mt-auto'}></div>
         <Separator className="mb-4 dark:bg-gray-700" />
 
-        <span className="font-bold text-navy hover:text-blue-600 dark:hover:text-blue-600 text-center text-lg mb-2 dark:text-white">
+        <span className="font-bold text-navy hover:text-emerald-600 dark:hover:text-emerald-600 text-center text-lg mb-2 dark:text-white">
           {product?.price}
         </span>
         <div className="flex flex-wrap justify-center items-center">
 
           <div className="flex justify-end w-full align-middle gap-3">
-            <Link to={`/ofisnaya-mebel/${transliterate(product.name)}/${product.exist ? 'mebel-na-zakaz' : 'mebel-v-nalichii'}/${product.id}`}>
-              <Button
-                variant="ghost"
-                size="custom"
-                className="text-navy-dark px-1 py-1 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-600"
-              >
+            <Button
+              variant="ghost"
+              size="custom"
+              className="text-navy-dark px-1 py-1 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-600"
+              asChild
+            >
+              <Link to={`/ofisnaya-mebel/${transliterate(product.name)}/${product.exist ? 'mebel-na-zakaz' : 'mebel-v-nalichii'}/${product.id}`}>
                 {t('learn_more_about')}
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default FeaturedProducts;

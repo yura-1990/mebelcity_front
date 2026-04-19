@@ -1,7 +1,7 @@
 
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import Seo from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -19,11 +19,11 @@ const NotFound = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Страница не найдена - MebelCity</title>
-        <meta name="description" content="Запрашиваемая страница не найдена. Вернитесь на главную страницу MebelCity - ведущего производителя мебели в Узбекистане." />
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
+      <Seo
+        title="Страница не найдена - MebelCity"
+        description="Запрашиваемая страница не найдена. Вернитесь на главную страницу MebelCity - ведущего производителя мебели в Узбекистане."
+        noindex={true}
+      />
 
       <div className="min-h-screen flex flex-col">
         <Navbar />

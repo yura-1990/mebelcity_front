@@ -1,7 +1,7 @@
 import * as React from "react"
 
 const MOBILE_BREAKPOINT = 1350
-const MOBILE_BREAKPOINT_LOGO = 698
+const MOBILE_BREAKPOINT_LOGO = 400
 
 export function useIsMobile() {
   const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)

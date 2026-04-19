@@ -34,7 +34,7 @@ const ContactSection = () => {
 
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="animate-fade-up bg-white dark:bg-navy/30 rounded-xl shadow-md p-8">
+          <div className="animate-fade-up bg-card rounded-xl shadow-md p-8">
             <Animable index={1}>
               <h3 className="text-2xl font-semibold text-navy-dark dark:text-white mb-6">Напишите нам</h3>
             </Animable>
@@ -95,7 +95,7 @@ const ContactSection = () => {
           </div>
           
           <div className="space-y-8">
-            <div className="animate-fade-up bg-white dark:bg-navy/30 rounded-xl shadow-md p-8">
+            <div className="animate-fade-up bg-card rounded-xl shadow-md p-8">
               <Animable index={3}>
               <h3 className="text-2xl font-semibold text-navy-dark dark:text-white mb-6">Контактная информация</h3>
               </Animable>
@@ -139,7 +139,7 @@ const ContactSection = () => {
             </div>
 
             <Animable index={5}>
-            <div className="animate-fade-up bg-white dark:bg-navy/30 rounded-xl shadow-md p-8 h-64">
+            <div className="animate-fade-up bg-card rounded-xl shadow-md p-8 h-64">
               <h3 className="text-xl font-semibold text-navy-dark dark:text-white mb-4">Карта</h3>
               <div className="w-full h-40 bg-gray-200 dark:bg-navy/50 rounded-lg relative">
                 <div className="absolute inset-0 flex items-center justify-center">

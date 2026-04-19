@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {Helmet} from 'react-helmet';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import {CheckCircle, AlertTriangle, HelpCircle} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from '@/components/ui/accordion';
 import {toast} from '@/components/ui/sonner';
+import Seo from '@/components/Seo';
+
+import { useLanguage } from '@/lib/i18n/context';
 
 const ServiceWarranty = () => {
+    const { t } = useLanguage();
 
     const [loading, setLoading] = useState(false);
 
@@ -26,11 +29,12 @@ const ServiceWarranty = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Гарантия качества - MebelCity</title>
-                <meta name="description"
-                      content="1 год гарантии на всю офисную мебель и бесплатное сервисное обслуживание от MebelCity"/>
-            </Helmet>
+            <Seo
+                title="Гарантия качества на офисную мебель — MebelCity Ташкент"
+                description="1 год гарантии на всю офисную мебель MebelCity. Бесплатный выезд специалиста, ремонт и замена деталей. Сервисное обслуживание в Ташкенте."
+                url="https://mebelcity.uz/services/warranty"
+                keywords="гарантия офисная мебель, сервис мебели Ташкент, гарантийное обслуживание MebelCity"
+            />
 
             <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark">
                 <Navbar/>
@@ -39,16 +43,13 @@ const ServiceWarranty = () => {
                             <main className="flex-grow pt-10">
                                 <div className="container mx-auto px-4 py-12">
                                     <div className=" mx-auto">
-                                        <h1 className="min-[1600px]:text-4xl xl:text-4xl text-2xl font-bold text-navy-dark dark:text-white mb-3">Гарантия
-                                            качества</h1>
+                                        <h1 className="min-[1600px]:text-4xl xl:text-4xl text-2xl font-bold text-navy-dark dark:text-white mb-3">{t('warranty.title')}</h1>
                                         <p className="min-[1600px]:text-2xl xl:text-xl text-md font-semibold text-gray-600 dark:text-gray-300 mb-8">
-                                            1 год гарантии на всю офисную мебель и сервисное обслуживание. Мы
-                                            уверены в качестве нашей продукции и предоставляем расширенную гарантию на все
-                                            изделия.
+                                            {t('warranty.subtitle')}
                                         </p>
 
                                         {/*<div className="flex items-center mb-8">*/}
-                                        {/*    <CheckCircle className="w-12 h-12 text-blue-600 mr-4"/>*/}
+                                        {/*    <CheckCircle className="w-12 h-12 text-emerald-600 mr-4"/>*/}
                                         {/*    <h2 className="text-2xl font-semibold text-navy-dark dark:text-white">Условия*/}
                                         {/*        гарантии</h2>*/}
                                         {/*</div>*/}
@@ -82,20 +83,20 @@ const ServiceWarranty = () => {
 
                                         <div className="mb-8">
                                             <h2 className="flex items-center gap-4 min-[1600px]:text-3xl text-xl 2xl:text-2xl xl:text-3xl font-semibold text-navy-dark  dark:text-white">
-                                                <div> <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5"/> </div>
-                                                <span> Что входит в гарантийное обслуживание</span>
+                                                <div> <CheckCircle className="w-5 h-5 text-emerald-600 mt-0.5"/> </div>
+                                                <span> {t('warranty.what_included')}</span>
                                             </h2>
 
                                             <div className="space-y-0 my-4 ">
                                                 {[
-                                                    "Бесплатный ремонт или замена изделия в случае обнаружения производственного дефекта",
-                                                    "Бесплатный выезд специалиста для диагностики проблемы",
-                                                    "Ремонт или замена некачественных деталей и механизмов",
-                                                    "Консультации по правильной эксплуатации и уходу за мебелью"
+                                                    t('warranty.included_item1'),
+                                                    t('warranty.included_item2'),
+                                                    t('warranty.included_item3'),
+                                                    t('warranty.included_item4')
                                                 ].map((item, index) => (
                                                     <div key={index}
-                                                         className="flex items-start gap-3 p-4 bg-gray-50 dark:bg-navy/20 rounded-md">
-                                                        <div> <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5"/> </div>
+                                                         className="flex items-start gap-3 p-4 bg-card rounded-md">
+                                                        <div> <CheckCircle className="w-5 h-5 text-emerald-600 mt-0.5"/> </div>
                                                         <p className="text-gray-600 text-lg font-semibold dark:text-gray-300  min-[1600px]:text-xl">{item}</p>
                                                     </div>
                                                 ))}
@@ -103,18 +104,18 @@ const ServiceWarranty = () => {
 
                                             <h3 className=" flex items-center gap-4 min-[1600px]:text-3xl text-xl 2xl:text-2xl xl:text-3xl font-semibold text-navy-dark  dark:text-white">
                                                 <AlertTriangle className="w-5 h-5 text-red-600 mr-2"/>
-                                                <span> На что не распространяется гарантия</span>
+                                                <span> {t('warranty.not_included')}</span>
                                             </h3>
 
                                             <div className="space-y-0 mt-4">
                                                 {[
-                                                    "Механические повреждения, возникшие в процессе эксплуатации мебели",
-                                                    "Дефекты, вызванные неправильной сборкой, если сборка производилась не нашими специалистами",
-                                                    "Повреждения, связанные с нарушением условий эксплуатации (повышенная влажность, воздействие высоких температур и т.д.)",
-                                                    "Естественный износ материалов (потертости, выцветание и т.д.)"
+                                                    t('warranty.not_included_item1'),
+                                                    t('warranty.not_included_item2'),
+                                                    t('warranty.not_included_item3'),
+                                                    t('warranty.not_included_item4')
                                                 ].map((item, index) => (
                                                     <div key={index}
-                                                         className="flex items-start gap-3 p-4 bg-gray-50 dark:bg-navy/20 rounded-md">
+                                                         className="flex items-start gap-3 p-4 bg-card rounded-md">
                                                         <div> <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5"/> </div>
                                                         <p className="text-gray-600 text-lg font-semibold dark:text-gray-300  min-[1600px]:text-xl">{item}</p>
                                                     </div>
@@ -203,7 +204,7 @@ const ServiceWarranty = () => {
                         : <div role="status" className={'h-[62vh] flex items-center justify-center'}>
                             <div>
                                 <svg aria-hidden="true"
-                                     className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                     className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-emerald-600"
                                      viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"

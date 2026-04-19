@@ -1,6 +1,5 @@
 
 import React, {useEffect, useState} from 'react';
-import { Helmet } from 'react-helmet';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useLanguage } from '@/lib/i18n/context';
@@ -10,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {Catalogs, Galleries, useStore} from "@/store";
 import {imageUrl} from "@/axios";
+import Seo from '@/components/Seo';
 
 const Gallery = () => {
   const { t } = useLanguage();
@@ -131,13 +131,14 @@ const Gallery = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{t('nav.gallery')} - MebelCity</title>
-        <meta name="description" content={t('furniture_gallery_intro')} />
-        <link rel="canonical" href="https://mebelcity.uz/gallery" />
-      </Helmet>
+      <Seo
+        title="Галерея офисной мебели MebelCity — фото работ в Ташкенте"
+        description={t('furniture_gallery_intro')}
+        url="https://mebelcity.uz/gallery"
+        keywords="галерея мебели Ташкент, фото офисной мебели, MebelCity портфолио, примеры офисной мебели"
+      />
 
-      <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark transition-colors duration-300">
+      <div className="min-h-screen flex flex-col bg-background transition-colors duration-300">
         <Navbar />
 
         <main className="flex-grow pt-2">
@@ -162,16 +163,16 @@ const Gallery = () => {
                   <Button
                       variant={selectedCategory === 'all' ? "default" : "outline"}
                       onClick={() => setSelectedCategory('all')}
-                      className={selectedCategory === 'all' ? "px-4 py-2 bg-white text-blue-500 border border-blue-500 hover:bg-blue-800 hover:text-white dark:border-none  rounded-full" : "hover:bg-blue-800 hover:text-white text-white px-4 py-2 bg-blue-500 rounded-full"}
+                      className={selectedCategory === 'all' ? "px-4 py-2 bg-white text-emerald-500 border border-emerald-500 hover:bg-emerald-800 hover:text-white dark:border-none  rounded-full" : "hover:bg-emerald-800 hover:text-white text-white px-4 py-2 bg-emerald-500 rounded-full"}
                   >
-                    <span className={` ${selectedCategory === 'all' ? '' : 'hover:text-white'} text-[18px] hover:scale-105`}>All</span>
+                    <span className={` ${selectedCategory === 'all' ? '' : 'hover:text-white'} text-[18px] hover:scale-105`}>{t('category.all') || 'Все'}</span>
                   </Button>
                   {catalogs?.map((category) => (
                       <Button
                           key={category.id}
                           variant={selectedCategory === category.id ? "default" : "outline"}
                           onClick={() => setSelectedCategory(category.id)}
-                          className={selectedCategory === category.id ? "px-4 py-2 bg-white text-blue-500 border border-blue-500 hover:bg-blue-800 hover:text-white dark:border-none  rounded-full" : "hover:bg-blue-800 hover:text-white text-white px-4 py-2 bg-blue-500 rounded-full"}
+                          className={selectedCategory === category.id ? "px-4 py-2 bg-white text-emerald-500 border border-emerald-500 hover:bg-emerald-800 hover:text-white dark:border-none  rounded-full" : "hover:bg-emerald-800 hover:text-white text-white px-4 py-2 bg-emerald-500 rounded-full"}
                       >
                         <span className={` ${selectedCategory === category.id.toString() ? '' : 'hover:text-white'} text-[18px] hover:scale-105`}>{category.name}</span>
                       </Button>
@@ -198,7 +199,10 @@ const Gallery = () => {
                     >
                       <img
                         src={`${imageUrl}/${image.image}`}
-                        alt={image.name}
+                        alt={image.name || "Фото офисной мебели MebelCity"}
+                        width="400"
+                        height="400"
+                        loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
 

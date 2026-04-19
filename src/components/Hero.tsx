@@ -12,13 +12,18 @@ const Hero = () => {
     return (
         <div className="relative bg-navy-dark h-screen w-full">
             {/* Background Image */}
-            <div
-                className="absolute inset-0 bg-cover bg-center opacity-80"
-                style={{
-                    backgroundImage: `url('${homeImage}')`,
-                    backgroundPosition: '75% 75%',
-                }}
-            ></div>
+            <div className="absolute inset-0 opacity-80 overflow-hidden">
+                <img
+                    src={homeImage}
+                    alt="Офисная мебель MebelCity — современный интерьер офиса"
+                    className="w-full h-full object-cover"
+                    style={{ objectPosition: '75% 75%' }}
+                    width="1920"
+                    height="1080"
+                    {...{ fetchpriority: "high" } as any}
+                    decoding="async"
+                />
+            </div>
 
             {/* Content */}
             <div className="relative z-10 container w-full mx-auto px-3 h-full flex flex-col justify-center">
@@ -26,16 +31,16 @@ const Hero = () => {
                     initial={{ y: '10vh', opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{
-                        type: 'tween',     // Valid type for smooth transition
-                        duration: 0.9,     // Adjust as needed
+                        type: 'tween',
+                        duration: 0.9,
                         delay: 0.2
                     }}
-                    className="max-w-2xl bg-custom-1 mx-auto w-full text-center"
+                    className="max-w-3xl bg-custom-1 mx-auto w-full text-center sm:text-start"
                 >
-                    <h1 className="text-white text-shadow text-start text-3xl sm:text-[50px] md:text-[30px] lg:text-4xl font-bold leading-tight mb-6"
+                    <h1 className="text-white text-shadow text-3xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6"
                         dangerouslySetInnerHTML={{ __html: t('hero_title') }}
                     ></h1>
-                    <p className="text-white text-shadow text-start sm:text-2xl leading-5  md:text-xl mb-8"
+                    <p className="text-white text-shadow text-lg sm:text-xl md:text-2xl mb-8 opacity-90"
                        dangerouslySetInnerHTML={{ __html: t('hero_description') }}
                     ></p>
                     <div className="flex flex-wrap flex-row gap-4">
@@ -75,7 +80,7 @@ const Hero = () => {
                                     mass: 0,         // small mass = faster
                                     duration: 0      // optional — framer ignores this with spring, but useful fallback
                                 }}
-                                className="md:text-[16px] text-[14px] !text-[#4293d1]"
+                                className="md:text-[16px] text-[14px] !text-[#047857]"
                             >
                                 {t('contact_us')}
                             </MotionLink>
@@ -85,8 +90,8 @@ const Hero = () => {
             </div>
 
             {/* Scroll indicator */}
-            <div className="absolute bottom-5 w-full flex items-center justify-center animate-bounce">
-                <svg width="50" height="100" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <div className="absolute bottom-5 w-full flex items-center justify-center animate-bounce" aria-hidden="true">
+                <svg width="50" height="100" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M12 5v14M19 12l-7 7-7-7" />
                 </svg>
             </div>

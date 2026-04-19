@@ -41,7 +41,7 @@ const testimonials: Testimonial[] = [
 
 const TestimonialSection = () => {
   return (
-    <section className="py-16 md:py-24 bg-white dark:bg-navy-dark">
+    <section className="py-16 md:py-24 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-navy-dark dark:text-white section-title">
@@ -75,7 +75,7 @@ const TestimonialCard = ({ testimonial, index }: TestimonialCardProps) => {
   return (
     <div 
       className={cn(
-        "furniture-card bg-white dark:bg-navy/30 rounded-xl overflow-hidden shadow-md p-6",
+        "furniture-card bg-card rounded-xl overflow-hidden shadow-md p-6",
         "animate-fade-up transition-all duration-300 h-full flex flex-col",
       )}
       style={{ animationDelay: `${index * 100}ms` }}

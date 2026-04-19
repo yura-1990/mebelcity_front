@@ -51,7 +51,7 @@ const CatalogSlider = () => {
   }, [getCatalogs, language])
 
   return (
-      <div className="py-16 md:py-12 overflow-hidden bg-white dark:bg-navy-dark">
+      <div className="py-16 md:py-12 overflow-hidden bg-background">
         <div className="container mx-auto px-4">
           <Animable>
             <h2 className="text-3xl md:text-4xl font-bold text-navy-dark dark:text-white section-title mb-5 text-center">
@@ -75,7 +75,7 @@ const CatalogSlider = () => {
             {
               catalogs?.map((category: Catalogs, idx: number) => (
                 <SwiperSlide key={category.id}>
-                  <Animable index={idx} className="relative h-[400px] rounded-xl overflow-hidden group">
+                  <Animable index={idx} className="relative h-[400px] bg-card rounded-xl overflow-hidden group">
                     <img
                         src={`${imageUrl}/${category.image_laptop}`}
                         alt={category.name}
