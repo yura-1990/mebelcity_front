@@ -46,6 +46,15 @@ export type Galleries = {
     image: string,
 }
 
+export type Seo = {
+    id: number,
+    page: string,
+    title: string | null,
+    description: string | null,
+    keywords: string | null,
+    og_image: string | null,
+}
+
 type State = {
     catalogs?: Catalogs[]
     products?: Product[]
@@ -53,6 +62,7 @@ type State = {
     error: boolean
     message: string
     galleries: Galleries[]
+    seos: Seo[]
 }
 
 type Store = {
@@ -60,6 +70,7 @@ type Store = {
     getCatalogs: () => Promise<void>;
     getProducts: () => Promise<void>;
     getGalleries: () => Promise<void>;
+    getSeos: () => Promise<void>;
 };
 
 export const useStore = create<Store>((set) => ({
@@ -67,6 +78,7 @@ export const useStore = create<Store>((set) => ({
         catalogs: [],
         products: [],
         galleries: [],
+        seos: [],
         loading: false,
         error: false,
         message: ''
@@ -192,6 +204,53 @@ export const useStore = create<Store>((set) => ({
                     }
                 }));
 
+            }
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                set((prev) => ({
+                    state: {
+                        ...prev.state,
+                        error: true,
+                        message: err.message,
+                        loading: false
+                    }
+                }));
+            } else {
+                set((prev) => ({
+                    state: {
+                        ...prev.state,
+                        error: true,
+                        message: 'Unexpected error occurred',
+                        loading: false
+                    }
+                }));
+            }
+        }
+    },
+
+    getSeos: async () => {
+        try {
+            set((prev) => ({
+                state: {
+                    ...prev.state,
+                    loading: true,
+                    error: false,
+                    message: ''
+                }
+            }));
+
+            const response = await axios.get(`/seo/all`);
+
+            if (response.status === 200) {
+                set((prev) => ({
+                    state: {
+                        ...prev.state,
+                        seos: response.data.data,
+                        loading: false,
+                        error: false,
+                        message: ''
+                    }
+                }));
             }
         } catch (err: unknown) {
             if (err instanceof Error) {

@@ -465,15 +465,20 @@ export const translations = {
 }
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>(() => {
+  const [language, setLanguageState] = useState<Language>(() => {
     // Try to get the language from localStorage
     const savedLanguage = localStorage.getItem('language') as Language;
     return savedLanguage || 'ru'; // Default to Russian if no language is saved
   });
 
-  // Save language to localStorage whenever it changes
+  const setLanguage = (lang: Language) => {
+    localStorage.setItem('language', lang);
+    document.documentElement.lang = lang;
+    setLanguageState(lang);
+  };
+
+  // Synchronize document lang on mount
   useEffect(() => {
-    localStorage.setItem('language', language);
     document.documentElement.lang = language;
   }, [language]);
 

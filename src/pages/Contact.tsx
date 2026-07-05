@@ -21,6 +21,10 @@ import { Phone, Mail, MapPin, Clock, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useToast } from '@/components/ui/use-toast';
 import Seo from '@/components/Seo';
+import { useStore } from '@/store';
+import { useEffect } from 'react';
+
+const STORAGE_URL = 'https://adminpanel.mebelcity.uz/storage';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name is required" }),
@@ -30,8 +34,14 @@ const formSchema = z.object({
 });
 
 const Contact = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { toast } = useToast();
+  const getSeos = useStore((store) => store.getSeos);
+  const seos = useStore((store) => store.state.seos);
+
+  useEffect(() => {
+    getSeos();
+  }, [getSeos, language]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,13 +65,21 @@ const Contact = () => {
 
   const MotionDiv = motion.div;
 
+  const seo = seos.find((s) => s.page === 'contact');
+
+  const pageTitle = seo?.title || "Контакты MebelCity — офисная мебель в Ташкенте | Связаться с нами";
+  const pageDescription = seo?.description || "Свяжитесь с MebelCity для заказа офисной мебели в Ташкенте. Телефон: +998 90 183 22 33. Адрес: Ташкентская область, Зангиатинский район. Бесплатная консультация.";
+  const pageKeywords = seo?.keywords || "контакты MebelCity, офисная мебель Ташкент телефон, заказать офисную мебель, MebelCity адрес";
+  const pageImage = seo?.og_image ? `${STORAGE_URL}/${seo.og_image}` : undefined;
+
   return (
     <>
       <Seo
-        title="Контакты MebelCity — офисная мебель в Ташкенте | Связаться с нами"
-        description="Свяжитесь с MebelCity для заказа офисной мебели в Ташкенте. Телефон: +998 90 183 22 33. Адрес: Ташкентская область, Зангиатинский район. Бесплатная консультация."
+        title={pageTitle}
+        description={pageDescription}
         url="https://mebelcity.uz/contact"
-        keywords="контакты MebelCity, офисная мебель Ташкент телефон, заказать офисную мебель, MebelCity адрес"
+        keywords={pageKeywords}
+        image={pageImage}
       />
 
       <div className="min-h-screen flex flex-col bg-background transition-colors duration-300">

@@ -6,11 +6,18 @@ import {Button} from '@/components/ui/button';
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from '@/components/ui/accordion';
 import {toast} from '@/components/ui/sonner';
 import Seo from '@/components/Seo';
-
 import { useLanguage } from '@/lib/i18n/context';
+import { useStore } from '@/store';
 
 const ServiceWarranty = () => {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
+    const getSeos  = useStore((store) => store.getSeos);
+    const seos     = useStore((store) => store.state.seos);
+    useEffect(() => { getSeos(); }, [getSeos, language]);
+    const seo      = seos.find((s) => s.page === 'services-warranty');
+    const seoTitle = seo?.title || 'Гарантия качества на офисную мебель — MebelCity Ташкент';
+    const seoDesc  = seo?.description || '1 год гарантии на всю офисную мебель MebelCity. Бесплатный выезд специалиста, ремонт и замена деталей. Сервисное обслуживание в Ташкенте.';
+    const seoKw    = seo?.keywords || 'гарантия офисная мебель, сервис мебели Ташкент, гарантийное обслуживание MebelCity';
 
     const [loading, setLoading] = useState(false);
 
@@ -30,10 +37,10 @@ const ServiceWarranty = () => {
     return (
         <>
             <Seo
-                title="Гарантия качества на офисную мебель — MebelCity Ташкент"
-                description="1 год гарантии на всю офисную мебель MebelCity. Бесплатный выезд специалиста, ремонт и замена деталей. Сервисное обслуживание в Ташкенте."
+                title={seoTitle}
+                description={seoDesc}
                 url="https://mebelcity.uz/services/warranty"
-                keywords="гарантия офисная мебель, сервис мебели Ташкент, гарантийное обслуживание MebelCity"
+                keywords={seoKw}
             />
 
             <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark">

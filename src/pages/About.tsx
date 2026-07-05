@@ -6,9 +6,19 @@ import { CheckCircle, AwardIcon, Clock, Briefcase, Users, Coffee } from 'lucide-
 import { motion } from 'framer-motion';
 import about from '../assets/images/about/about.jpeg';
 import Seo from '@/components/Seo';
+import { useStore } from '@/store';
+import { useEffect } from 'react';
+
+const STORAGE_URL = 'https://adminpanel.mebelcity.uz/storage';
 
 const About = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const getSeos = useStore((store) => store.getSeos);
+  const seos = useStore((store) => store.state.seos);
+
+  useEffect(() => {
+    getSeos();
+  }, [getSeos, language]);
 
   const stats = [
     { value: '15+', label: t('years_experience'), icon: Clock },
@@ -18,19 +28,23 @@ const About = () => {
 
   const MotionDiv = motion.div;
 
-  const pageTitle = `${t('nav.about')} | MebelCity`;
-  const pageUrl = 'https://mebelcity.uz/about';
-  const pageImage = 'https://mebelcity.uz/assets/images/about/about.jpeg';
+  const seo = seos.find((s) => s.page === 'about');
 
-  const pageDescription =
+  const pageTitle = seo?.title || `${t('nav.about')} | MebelCity`;
+  const pageUrl = 'https://mebelcity.uz/about';
+  const pageImage = seo?.og_image ? `${STORAGE_URL}/${seo.og_image}` : 'https://mebelcity.uz/assets/images/about/about.jpeg';
+
+  const pageDescription = seo?.description ||
     t('about.description1') ||
     'Узнайте больше о компании MebelCity — производителе и поставщике качественной офисной и домашней мебели в Узбекистане.';
+  const pageKeywords = seo?.keywords || undefined;
 
   return (
     <>
       <Seo
         title={pageTitle}
         description={pageDescription}
+        keywords={pageKeywords}
         url={pageUrl}
         image={pageImage}
         ogType="website"
@@ -42,7 +56,7 @@ const About = () => {
             name: pageTitle,
             url: pageUrl,
             description: pageDescription,
-            inLanguage: 'ru',
+            inLanguage: language || 'ru',
             mainEntity: {
               '@type': 'Organization',
               name: 'MebelCity',

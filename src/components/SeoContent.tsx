@@ -1,6 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/lib/i18n/context';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+
+interface FaqItem { q: string; a: string; }
+
+const FaqAccordion = ({ items }: { items: FaqItem[] }) => {
+  const [open, setOpen] = useState<number | null>(null);
+  return (
+    <div className="space-y-3 mt-6">
+      {items.map((item, i) => (
+        <div key={i} className="border border-gray-200 dark:border-navy rounded-lg overflow-hidden">
+          <button
+            className="w-full flex justify-between items-center px-5 py-4 text-left font-medium text-navy-dark dark:text-white hover:bg-gray-50 dark:hover:bg-navy/40 transition-colors"
+            onClick={() => setOpen(open === i ? null : i)}
+            aria-expanded={open === i}
+          >
+            <span>{item.q}</span>
+            {open === i ? <ChevronUp className="h-4 w-4 shrink-0 text-emerald-600" /> : <ChevronDown className="h-4 w-4 shrink-0 text-gray-400" />}
+          </button>
+          {open === i && (
+            <div className="px-5 pb-4 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+              {item.a}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const SeoContent = () => {
   const { language } = useLanguage();
@@ -33,6 +61,17 @@ const SeoContent = () => {
               ofislargacha. <Link to="/ofisnaya-mebel" className="text-emerald-600 hover:text-emerald-800 font-medium">Katalogimizni ko'ring</Link> yoki
               {' '}<Link to="/contact" className="text-emerald-600 hover:text-emerald-800 font-medium">biz bilan bog'laning</Link> — bepul maslahat beramiz.
             </p>
+
+            <h3 className="text-xl font-semibold text-navy-dark dark:text-white mb-3 mt-8">
+              Ko'p so'raladigan savollar
+            </h3>
+            <FaqAccordion items={[
+              { q: "MebelCity'da mebel qanday buyurtma qilinadi?", a: "Telefon orqali (+998 90 183 22 33) yoki saytdagi forma orqali bog'laning. Bepul maslahat va o'lchov olish uchun mutaxassisimiz siz bilan bog'lanadi." },
+              { q: "Mebel yetkazib berish qancha turadi?", a: "Toshkent bo'ylab yetkazib berish bepul. O'zbekistonning boshqa shaharlariga yetkazib berish narxi individual hisoblanadi." },
+              { q: "Ofis mebellariga kafolat bormi?", a: "Ha, barcha mahsulotlarimizga 1 yillik kafolat beriladi. Ishlab chiqarish nuqsonlari bepul tuzatiladi." },
+              { q: "Maxsus o'lchamlarda mebel buyurtma qilish mumkinmi?", a: "Ha, biz individual o'lchamlarda va dizaynlarda mebel tayyorlaymiz. Mutaxassisimiz siz bilan bog'lanib, barcha tafsilotlarni muhokama qiladi." },
+              { q: "To'lov qanday amalga oshiriladi?", a: "Naqd pul, bank kartasi yoki bank o'tkazmasi orqali to'lash mumkin. Katta buyurtmalar uchun bo'lib to'lash imkoniyati mavjud." },
+            ]} />
           </div>
         </div>
       </section>
@@ -88,7 +127,7 @@ const SeoContent = () => {
           <h3 className="text-xl font-semibold text-navy-dark dark:text-white mb-3">
             Наши категории офисной мебели
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-10">
             <Link to="/ofisnaya-mebel" className="bg-card p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow text-center">
               <span className="text-navy-dark dark:text-white font-medium">Офисные столы</span>
             </Link>
@@ -108,6 +147,19 @@ const SeoContent = () => {
               <span className="text-navy-dark dark:text-white font-medium">Галерея работ</span>
             </Link>
           </div>
+
+          {/* FAQ Section — visible to users and crawled by Google */}
+          <h3 className="text-xl font-semibold text-navy-dark dark:text-white mb-1">
+            Часто задаваемые вопросы
+          </h3>
+          <FaqAccordion items={[
+            { q: "Как заказать мебель в MebelCity?", a: "Свяжитесь с нами по телефону +998 90 183 22 33 или через форму на сайте. Наш специалист свяжется с вами для бесплатной консультации и замера." },
+            { q: "Сколько стоит доставка мебели?", a: "Доставка по Ташкенту — бесплатно. В другие города Узбекистана стоимость рассчитывается индивидуально в зависимости от объёма." },
+            { q: "Есть ли гарантия на офисную мебель?", a: "Да, на всю нашу продукцию предоставляется гарантия 1 год. Производственные дефекты устраняются бесплатно." },
+            { q: "Можно ли заказать мебель по индивидуальным размерам?", a: "Да, мы изготавливаем мебель по индивидуальным размерам и дизайну. Наш специалист свяжется с вами для обсуждения всех деталей." },
+            { q: "Какие способы оплаты доступны?", a: "Принимаем оплату наличными, банковской картой и банковским переводом. Для крупных заказов доступна рассрочка." },
+            { q: "Сколько времени занимает изготовление мебели на заказ?", a: "Стандартный срок изготовления — от 7 до 21 рабочих дней в зависимости от сложности и объёма заказа." },
+          ]} />
         </div>
       </div>
     </section>
@@ -115,3 +167,4 @@ const SeoContent = () => {
 };
 
 export default SeoContent;
+

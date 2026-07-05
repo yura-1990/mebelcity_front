@@ -7,11 +7,20 @@ import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} f
 import {Link} from 'react-router-dom';
 import {toast} from '@/components/ui/sonner';
 import Seo from '@/components/Seo';
-
 import { useLanguage } from '@/lib/i18n/context';
+import { useStore } from '@/store';
 
 const ServiceOffers = () => {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
+    const getSeos = useStore((store) => store.getSeos);
+    const seos   = useStore((store) => store.state.seos);
+
+    useEffect(() => { getSeos(); }, [getSeos, language]);
+
+    const seo  = seos.find((s) => s.page === 'services-offers');
+    const seoTitle = seo?.title || 'Специальные предложения на офисную мебель — MebelCity Ташкент';
+    const seoDesc  = seo?.description || 'Эксклюзивные скидки до 15% для корпоративных клиентов на офисную мебель от MebelCity. Бесплатная доставка, рассрочка, гарантия.';
+    const seoKw    = seo?.keywords || 'скидки офисная мебель, корпоративные скидки мебель Ташкент, MebelCity акции';
 
     const [loading, setLoading] = useState(false);
 
@@ -30,10 +39,10 @@ const ServiceOffers = () => {
     return (
         <>
             <Seo
-                title="Специальные предложения на офисную мебель — MebelCity Ташкент"
-                description="Эксклюзивные скидки до 15% для корпоративных клиентов на офисную мебель от MebelCity. Бесплатная доставка, рассрочка, гарантия."
+                title={seoTitle}
+                description={seoDesc}
                 url="https://mebelcity.uz/services/offers"
-                keywords="скидки офисная мебель, корпоративные скидки мебель Ташкент, MebelCity акции"
+                keywords={seoKw}
             />
 
             <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark shadow-lg">

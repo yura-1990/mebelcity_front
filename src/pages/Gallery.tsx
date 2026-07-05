@@ -11,18 +11,23 @@ import {Catalogs, Galleries, useStore} from "@/store";
 import {imageUrl} from "@/axios";
 import Seo from '@/components/Seo';
 
+const STORAGE_URL = 'https://adminpanel.mebelcity.uz/storage';
+
 const Gallery = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string| number | null>(null);
 
   const getGalleries = useStore((store) => store.getGalleries);
+  const getSeos = useStore((store) => store.getSeos);
   const galleries: Galleries[] = useStore((store) => store.state.galleries);
   const catalogs: Catalogs[] = useStore((store) => store.state.catalogs);
+  const seos = useStore((store) => store.state.seos);
 
   useEffect(() => {
-    getGalleries()
-  }, [getGalleries]);
+    getGalleries();
+    getSeos();
+  }, [getGalleries, getSeos, language]);
 
   const galleryImages = [
     {
@@ -129,13 +134,21 @@ const Gallery = () => {
 
   const MotionDiv = motion.div;
 
+  const seo = seos.find((s) => s.page === 'gallery');
+
+  const pageTitle = seo?.title || "Галерея офисной мебели MebelCity — фото работ в Ташкенте";
+  const pageDescription = seo?.description || t('furniture_gallery_intro');
+  const pageKeywords = seo?.keywords || "галерея мебели Ташкент, фото офисной мебели, MebelCity портфолио, примеры офисной мебели";
+  const pageImage = seo?.og_image ? `${STORAGE_URL}/${seo.og_image}` : undefined;
+
   return (
     <>
       <Seo
-        title="Галерея офисной мебели MebelCity — фото работ в Ташкенте"
-        description={t('furniture_gallery_intro')}
+        title={pageTitle}
+        description={pageDescription}
         url="https://mebelcity.uz/gallery"
-        keywords="галерея мебели Ташкент, фото офисной мебели, MebelCity портфолио, примеры офисной мебели"
+        keywords={pageKeywords}
+        image={pageImage}
       />
 
       <div className="min-h-screen flex flex-col bg-background transition-colors duration-300">

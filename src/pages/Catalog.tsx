@@ -22,8 +22,11 @@ const Catalog = ({ home }: { home: boolean }) => {
   const { t, language } = useLanguage();
   const getProducts = useStore((store) => store.getProducts);
   const getCatalogs = useStore((store) => store.getCatalogs);
+  const getSeos     = useStore((store) => store.getSeos);
   const products = useStore((store) => store.state.products);
   const catalogs = useStore((store) => store.state.catalogs);
+  const seos     = useStore((store) => store.state.seos);
+  const catalogSeo = seos.find((s) => s.page === 'catalog');
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>('all');
@@ -31,7 +34,8 @@ const Catalog = ({ home }: { home: boolean }) => {
   useEffect(() => {
     getProducts();
     getCatalogs();
-  }, [getProducts, getCatalogs, language]);
+    getSeos();
+  }, [getProducts, getCatalogs, getSeos, language]);
 
   const filteredImages = useMemo(() => {
     return selectedCategory && selectedCategory !== 'all'
@@ -54,14 +58,18 @@ const Catalog = ({ home }: { home: boolean }) => {
     }
 
     if (selectedCategory && selectedCategory !== 'all') {
+      const found = catalogs.find((category) => category?.id?.toString() === selectedCategory);
+      if (found?.seo_title) return found.seo_title;
       return `${selectedCategoryName} | MebelCity`;
     }
 
     return `${t('furniture_catalog_title')} | MebelCity`;
-  }, [home, selectedCategory, selectedCategoryName, t]);
+  }, [home, selectedCategory, selectedCategoryName, catalogs, t]);
 
   const pageDescription = useMemo(() => {
     if (selectedCategory && selectedCategory !== 'all') {
+      const found = catalogs.find((category) => category?.id?.toString() === selectedCategory);
+      if (found?.seo_description) return found.seo_description;
       return `${selectedCategoryName} — каталог мебели MebelCity в Ташкенте и по Узбекистану. Большой выбор моделей, качественные материалы и современный дизайн.`;
     }
 
@@ -69,7 +77,15 @@ const Catalog = ({ home }: { home: boolean }) => {
       t('furniture_catalog_description') ||
       'Каталог мебели MebelCity: офисная мебель, столы, шкафы, комплекты и современные решения для интерьера в Ташкенте и по Узбекистану.'
     );
-  }, [selectedCategory, selectedCategoryName, t]);
+  }, [selectedCategory, selectedCategoryName, catalogs, t]);
+
+  const pageKeywords = useMemo(() => {
+    if (selectedCategory && selectedCategory !== 'all') {
+      const found = catalogs.find((category) => category?.id?.toString() === selectedCategory);
+      if (found?.seo_keywords) return found.seo_keywords;
+    }
+    return catalogSeo?.keywords || 'офисная мебель Ташкент, каталог мебели, мебель MebelCity';
+  }, [selectedCategory, catalogs, catalogSeo]);
 
   const pageUrl = useMemo(() => {
     return `${SITE_URL}/ofisnaya-mebel`;
@@ -100,6 +116,7 @@ const Catalog = ({ home }: { home: boolean }) => {
         <Seo
           title={pageTitle}
           description={pageDescription}
+          keywords={pageKeywords}
           url={pageUrl}
           image={DEFAULT_CATALOG_IMAGE}
           ogType="website"

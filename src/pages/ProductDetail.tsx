@@ -23,6 +23,9 @@ interface Product {
   image: string;
   category: string;
   slug: string;
+  seo_title?: string;
+  seo_description?: string;
+  seo_keywords?: string;
   detailedDescription?: string;
   specifications?: Record<string, string>;
   materials?: string[];
@@ -113,12 +116,12 @@ const ProductDetail = () => {
   return (
     <>
       <Seo
-        title={`${product.name} — купить в MebelCity | Офисная мебель Ташкент`}
-        description={stripHtml(product.description) || `${product.name} — офисная мебель от MebelCity в Ташкенте. Качественные материалы, доставка по Узбекистану.`}
+        title={product.seo_title || `${product.name} — купить в MebelCity | Офисная мебель Ташкент`}
+        description={product.seo_description || stripHtml(product.description) || `${product.name} — офисная мебель от MebelCity в Ташкенте. Качественные материалы, доставка по Узбекистану.`}
         url={productUrl}
         image={productImage}
         ogType="product"
-        keywords={`${product.name}, офисная мебель Ташкент, купить ${product.name}, MebelCity`}
+        keywords={product.seo_keywords || `${product.name}, офисная мебель Ташкент, купить ${product.name}, MebelCity`}
       >
         <ProductSchema
           name={product.name}

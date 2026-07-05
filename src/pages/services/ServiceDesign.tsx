@@ -6,11 +6,18 @@ import {Button} from '@/components/ui/button';
 import {Separator} from '@/components/ui/separator';
 import {toast} from '@/components/ui/sonner';
 import Seo from '@/components/Seo';
-
 import { useLanguage } from '@/lib/i18n/context';
+import { useStore } from '@/store';
 
 const ServiceDesign = () => {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
+    const getSeos  = useStore((store) => store.getSeos);
+    const seos     = useStore((store) => store.state.seos);
+    useEffect(() => { getSeos(); }, [getSeos, language]);
+    const seo      = seos.find((s) => s.page === 'services-design');
+    const seoTitle = seo?.title || 'Индивидуальный дизайн офисной мебели — MebelCity Ташкент';
+    const seoDesc  = seo?.description || 'Разработка уникальных мебельных решений под ваши потребности и корпоративный стиль. 3D-визуализация, подбор материалов, профессиональная установка.';
+    const seoKw    = seo?.keywords || 'дизайн офисной мебели Ташкент, мебель на заказ, индивидуальный дизайн мебели MebelCity';
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -28,10 +35,10 @@ const ServiceDesign = () => {
     return (
         <>
             <Seo
-                title="Индивидуальный дизайн офисной мебели — MebelCity Ташкент"
-                description="Разработка уникальных мебельных решений под ваши потребности и корпоративный стиль. 3D-визуализация, подбор материалов, профессиональная установка."
+                title={seoTitle}
+                description={seoDesc}
                 url="https://mebelcity.uz/services/design"
-                keywords="дизайн офисной мебели Ташкент, мебель на заказ, индивидуальный дизайн мебели MebelCity"
+                keywords={seoKw}
             />
             <div className="min-h-screen flex flex-col bg-white dark:bg-navy-dark">
                 <Navbar/>
