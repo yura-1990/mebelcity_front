@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const apiUrl = 'http://localhost:8000/api';
-export const imageUrl = 'http://localhost:8000/storage';
+const apiUrl = 'https://adminpanel.mebelcity.uz/api';
+export const imageUrl = 'https://adminpanel.mebelcity.uz/storage';
 
 const api = axios.create({
     baseURL: apiUrl,

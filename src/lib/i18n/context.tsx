@@ -20,13 +20,13 @@ export const translations = {
     'nav.gallery': 'Галерея',
     'nav.contact': 'Контакты',
     'nav.callRequest': 'Заказать звонок',
-    
+
     // Hero Section
     'hero.title': 'Превосходная мебель для Вашего комфорта',
     'hero.description': 'MebelCity - ведущий производитель стильной и качественной мебели в Узбекистане. Создайте дом своей мечты с нашими элегантными коллекциями.',
     'hero.viewCatalog': 'Смотреть каталог',
     'hero.contactUs': 'Связаться с нами',
-    
+
     // Category Section
     'category.title': 'Наши Категории',
     'category.description': 'Исследуйте наши разнообразные коллекции мебели, созданные для каждой комнаты в вашем доме',
@@ -36,7 +36,7 @@ export const translations = {
     'category.magazine': 'Журнальные столики',
     'category.office': 'Офисные столы',
     'category.viewCollection': 'Смотреть коллекцию',
-    
+
     // Services Section
     'services.title': 'Наши Услуги',
     'services.description': 'Предлагаем комплексные решения для офисной мебели высочайшего качества',
@@ -47,7 +47,7 @@ export const translations = {
     'services.qualityGuarantee': 'Гарантия качества',
     'services.qualityGuaranteeDesc': '5 лет гарантии на всю офисную мебель и бесплатное сервисное обслуживание.',
     'services.learnMore': 'Подробнее',
-    
+
     // About Section
     'about.title': 'О компании MebelCity',
     'about.description1': 'MebelCity — ведущий производитель мебели в Узбекистане с более чем 15-летним опытом. Мы специализируемся на создании элегантной, функциональной и долговечной мебели для вашего дома и офиса.',
@@ -60,7 +60,7 @@ export const translations = {
     'about.timelyDeliveryDesc': 'Мы гарантируем доставку вашего заказа в согласованные сроки, без задержек',
     'about.warranty': 'Гарантия 1 год',
     'about.warrantyDesc': 'Мы уверены в качестве нашей продукции и предоставляем расширенную гарантию на все изделия',
-    
+
     // Footer
     'footer.subscribe': 'Подпишитесь на наши новости',
     'footer.subscribeDesc': 'Получайте информацию о специальных предложениях, новых коллекциях и дизайнерских идеях',
@@ -246,13 +246,13 @@ export const translations = {
     'nav.gallery': 'Galereya',
     'nav.contact': 'Aloqa',
     'nav.callRequest': 'Qo\'ng\'iroq buyurtma qilish',
-    
+
     // Hero Section
     'hero.title': 'Qulayligingiz uchun yuqori sifatli mebel',
     'hero.description': 'MebelCity - O\'zbekistonda zamonaviy va sifatli mebel ishlab chiqaruvchi yetakchi kompaniya. Bizning nafis kolleksiyalarimiz bilan orzuyingizdagi uyni yarating.',
     'hero.viewCatalog': 'Katalogni ko\'rish',
     'hero.contactUs': 'Biz bilan bog\'laning',
-    
+
     // Category Section
     'category.title': 'Kategoriyalarimiz',
     'category.description': 'Uyingizning har bir xonasi uchun mo\'ljallangan turli mebel kolleksiyalarimizni o\'rganing',
@@ -262,7 +262,7 @@ export const translations = {
     'category.magazine': 'Ofis jurnal stollar',
     'category.office': 'Ofis stollar',
     'category.viewCollection': 'Kolleksiyani ko\'rish',
-    
+
     // Services Section
     'services.title': 'Bizning xizmatlarimiz',
     'services.description': 'Biz eng yuqori sifatli ofis mebellari uchun kompleks yechimlarni taklif etamiz',
@@ -273,7 +273,7 @@ export const translations = {
     'services.qualityGuarantee': 'Sifat kafolati',
     'services.qualityGuaranteeDesc': 'Barcha ofis mebellariga 5 yillik kafolat va bepul servis xizmati.',
     'services.learnMore': 'Batafsil',
-    
+
     // About Section
     'about.title': 'MebelCity haqida',
     'about.description1': 'MebelCity 15 yildan ortiq tajribaga ega bo\'lgan O\'zbekistonning yetakchi mebel ishlab chiqaruvchisidir. Biz uyingiz va ofisingiz uchun nafis, funksional va chidamli mebellar ishlab chiqarishga ixtisoslashganmiz.',
@@ -286,7 +286,7 @@ export const translations = {
     'about.timelyDeliveryDesc': 'Biz buyurtmangizni kelishilgan muddatlarda, kechikishlarsiz yetkazib berishni kafolatlaymiz',
     'about.warranty': '1 yillik kafolat',
     'about.warrantyDesc': 'Biz mahsulotlarimiz sifatiga ishonamiz va barcha mahsulotlarga kengaytirilgan kafolat beramiz',
-    
+
     // Footer
     'footer.subscribe': 'Yangiliklarga obuna bo\'ling',
     'footer.subscribeDesc': 'Maxsus takliflar, yangi kolleksiyalar va dizayn g\'oyalari haqida ma\'lumot oling',
@@ -329,8 +329,8 @@ export const translations = {
     "meta_keywords": "mebel, mebel sotib olish, Toshkentda mebel, O‘zbekistonda mebel, shkaflar, stollar, oshxona, ofis mebellari",
     "og_title": "O‘zbekistondagi eng yaxshi ofis mebellari tanlovi!",
     "og_description": "Ofis va Uy uchun keng mebel tanlovi qulay narxlarda. Yuqori sifat, individual dizayn va butun O‘zbekiston bo‘ylab yetkazib berish.",
-    "hero_title": "Sizning qulayligingiz uchun <br /> ajoyib mebellar",
-    "hero_description": "MebelCity — O‘zbekistondagi yetakchi sifatli mebel ishlab chiqaruvchisi. Bizning to‘plamlar bilan orzuingizdagi ofisni yarating.",
+    "hero_title": "Ofis uchun <br /> sifatli mebellar",
+    "hero_description": "MebelCity — O‘zbekistonda ko‘p yillik tajribaga ega mebel ishlab chiqaruvchi korxonadir. Bizning mebellarimiz bilan biznesingizni yanada rivojlantiring.",
     "view_catalog": "Katalogni ko‘rish",
     "contact_us": "Biz bilan bog‘lanish",
     "services_title": "Bizning xizmatlarimiz",

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 const MotionLink = motion.create(Link);
 import homeImage from '../assets/images/home/hom3.jpg'
-import {useLanguage} from "@/lib/i18n/context.tsx";
+import { useLanguage } from "@/lib/i18n/context.tsx";
 
 
 const Hero = () => {
@@ -41,7 +41,7 @@ const Hero = () => {
                         dangerouslySetInnerHTML={{ __html: t('hero_title') }}
                     ></h1>
                     <p className="text-white text-shadow text-lg sm:text-xl md:text-2xl mb-8 opacity-90"
-                       dangerouslySetInnerHTML={{ __html: t('hero_description') }}
+                        dangerouslySetInnerHTML={{ __html: t('hero_description') }}
                     ></p>
                     <div className="flex flex-wrap flex-row gap-4">
                         <Button

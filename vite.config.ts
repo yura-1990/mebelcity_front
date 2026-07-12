@@ -10,8 +10,13 @@ export default defineConfig(({ mode }) => ({
     port: 300,
     proxy: {
       '/sitemap.xml': {
-        target: 'http://127.0.0.1:8000',
+        target: 'https://adminpanel.mebelcity.uz',
         changeOrigin: true,
+        bypass: (req) => {
+          if (req.headers.accept && req.headers.accept.indexOf('text/html') !== -1) {
+            req.headers.accept = 'application/xml';
+          }
+        }
       }
     }
   },

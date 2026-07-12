@@ -12,6 +12,8 @@ import mobileLogoDark from '../assets/images/logos/logo_oq.png';
 import { CartDropdown } from './cart/CartDropdown';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import Animable from '@/components/Animable.tsx';
+import NavbarSeasonAnimation from './NavbarSeasonAnimation';
+import { SeasonSelector } from './SeasonSelector';
 
 const MotionLink = motion.create(Link);
 
@@ -93,7 +95,8 @@ const Navbar = () => {
 
   return (
     <nav className={navClasses}>
-      <div className="container-fluid mx-auto px-4 gap-3 flex flex-wrap justify-between items-center " >
+      <NavbarSeasonAnimation />
+      <div className="container-fluid mx-auto px-4 gap-3 flex flex-wrap justify-between items-center relative z-10" >
         <div className="flex items-center">
           <MotionLink
               to="/"
@@ -143,6 +146,7 @@ const Navbar = () => {
         )}
 
         <div className="flex items-center space-x-2">
+          <SeasonSelector />
           <LanguageSelector />
           <ThemeToggle />
           <CartDropdown />
